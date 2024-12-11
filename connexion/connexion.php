@@ -16,7 +16,7 @@
         </div>
 
         <ul class="list">
-            <li class="list-item active">
+            <li class="list-item">
                 <a href="../home/index.php">
                     <i class='bx bxs-home'></i>
                     <span class="link-name" style="--i:1;">Accueil</span>
@@ -34,7 +34,7 @@
                     <span class="link-name" style="--i:3;">Profil</span>
                 </a>
             </li>
-            <li class="list-item">
+            <li class="list-item active">
                 <a href="#">
                     <i class='bx bxs-user'></i>
                     <span class="link-name" style="--i:4;">Se connecter</span>

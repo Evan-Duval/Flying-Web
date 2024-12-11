@@ -135,7 +135,7 @@ body {
 
 h1 {
     text-align: center;
-    color: #fff;
+    color: #000;
     font-size: 4em;
     font-weight: 900;
     margin: 10%;
@@ -143,7 +143,7 @@ h1 {
 
 h3 {
     text-align: center;
-    color: #fff;
+    color: #000;
     font-size: 2em;
     font-weight: 900;
     margin: 10%;
@@ -156,7 +156,7 @@ h3 {
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-    color: #fff;
+    color: #000;
     border-radius: 10px;
     padding: 10px 40px;
 }
@@ -182,7 +182,7 @@ h3 {
     border: 2px solid rgba(250, 250 ,250, .2);
     border-radius: 40px;
     font-size: 16px;
-    color: #fff;
+    color: #000;
     padding: 20px 45px 20px 20px;
 }
 
@@ -201,14 +201,14 @@ h3 {
 .wrapper .btn {
     width: 100%;
     height: 45px;
-    background: #fff;
+    background: #000;
     border: none;
     outline: none;
     border-radius: 40px;
     box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     cursor: pointer;
     font-size: 16px;
-    color: #333;
+    color: #fff;
     font-weight: 600;
 }
 
@@ -219,7 +219,7 @@ h3 {
 }
 
 .register-link p a {
-    color: #fff;
+    color: #000;
     text-decoration: none;
     font-weight: 600;
     font-size: 17px;
