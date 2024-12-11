@@ -29,9 +29,9 @@
                 </a>
             </li>
             <li class="list-item">
-                <a href="#">
+                <a href="../connexion/inscription.php">
                     <i class='bx bxs-user' ></i>
-                    <span class="link-name" style="--i:3;">Se connecter</span>
+                    <span class="link-name" style="--i:3;">S'inscrire</span>
                 </a>
             </li>
             <li class="list-item">
