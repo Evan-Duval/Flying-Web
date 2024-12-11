@@ -29,7 +29,7 @@
                 </a>
             </li>
             <li class="list-item">
-                <a href="#">
+                <a href="../connexion/inscription.php">
                     <i class='bx bxs-contact'></i>
                     <span class="link-name" style="--i:3;">Profil</span>
                 </a>
