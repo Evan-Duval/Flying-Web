@@ -3,63 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../home/style.css">
-    <link rel="stylesheet" href="inscriptionstyle.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="styles.css">
     <title>Flying Web Inscription</title>
 </head>
 <body>
-    <h1>Formulaire d'inscription</h1>
-    <form action="connexion.php" method="post">
-        <label for="firstName">Prénom :</label>
-        <input type="text" id="firstName" name="firstName" required>
 
-        <label for="lastName">Nom :</label>
-        <input type="text" id="lastName" name="lastName" required>
+    <nav class="sidebar">
+        <div class="logo-menu">
+            <h2 class="logo">Flying Web</h2>
+            <i class='bx bx-menu toggle-btn'></i>
+        </div>
 
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="email" required>
+        <ul class="list">
+            <li class="list-item active">
+                <a href="../home/index.php">
+                    <i class='bx bxs-home'></i>
+                    <span class="link-name" style="--i:1;">Accueil</span>
+                </a>
+            </li>
+            <li class="list-item">
+                <a href="#">
+                    <i class='bx bxs-store'></i>
+                    <span class="link-name" style="--i:2;">- - - - -</span>
+                </a>
+            </li>
+            <li class="list-item">
+                <a href="#">
+                    <i class='bx bxs-contact'></i>
+                    <span class="link-name" style="--i:3;">Profil</span>
+                </a>
+            </li>
+            <li class="list-item">
+                <a href="connexion.php">
+                    <i class='bx bxs-user'></i>
+                    <span class="link-name" style="--i:4;">Se connecter</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-        <label for="birthday">Date de naissance :</label>
-        <input type="date" id="birthday" name="birthday" required>
+    <div class="wrapper">
 
-        <label for="password">Mot de Passe</label>
-        <input type="password" id="password" name="password" required>
+        <form action="traitement.php" method="post">
 
-        <?php
-            $firstName = $_POST['firstName'] ?? null;
-            $lastName = $_POST['lastName'] ?? null;
-            $email = $_POST['email'] ?? null;
-            $password = $_POST['password'] ?? null;
-            $birthday = $_POST['birthday'] ?? null;
-            
-            include '../sql/connexion.php';
-            
-            try {
-                $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
-                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
-                $stmt = $pdo->prepare(
-                    "INSERT INTO user
-                    (firstName, lastName, email, password, birthday) 
-                    VALUES (:prenom, :nom, :email, :password, :birthday)"
-                );
-                $stmt->execute([
-                    ':prenom' => $firstName,
-                    ':nom' => $lastName,
-                    ':email' => $email,
-                    ':password' => $password,
-                    ':birthday' => $birthday,
-                ]);
-            
-                echo "Inscription terminée. Vous serez redirigé vers l'accueil dans 2 secondes...";
-            
-                header(header: "refresh:2;url=connexion.php");
-                exit;
-            } catch (PDOException $e) {
-                echo "Erreur : " . $e->getMessage();
-            }
-        ?>
+            <h1>Inscription</h1>
+            <div class="input-box">
+                <input type="text" id="firstName" name="firstName" placeholder="Prénom" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+            <input type="text" id="lastName" name="lastName" placeholder="Nom" required>
+                <i class='bx bxs-user'></i>
+            </div>
+            <div class="input-box">
+                <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
+                <i class='bx bxs-envelope'></i>
+            </div>
+            <div class="input-box">
+                <input type="date" id="birthday" name="birthday" placeholder="Date de naissance" required>
+                <i class='bx bxs-calendar'></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                <i class='bx bxs-lock-alt' ></i>
+            </div>
 
-    </form>
+            <button type="submit" class="btn">S'inscrire</button>
+
+            <div class="register-link">
+                <p>Vous avez déjà un compte ? <a href="connexion.php">Se connecter</a></p>
+            </div>
+
+        </form>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
