@@ -16,6 +16,8 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+
+
 }
 
 .sidebar {
@@ -31,6 +33,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     padding: 6px 14px;
     transition: .5s;
+    z-index: 1000;
 }
 
 .sidebar.active {
@@ -135,16 +138,107 @@ body {
 
 h1 {
     text-align: center;
-    color: #000;
+    color: #fff;
     font-size: 4em;
     font-weight: 900;
-    margin: 10%;
+}
+
+h2 {
+    text-align: center;
+    color: #fff;
+    font-size: 2.5em;
+    font-weight: 900;
 }
 
 h3 {
     text-align: center;
-    color: #000;
+    color: #fff;
     font-size: 2em;
     font-weight: 900;
-    margin: 10%;
+}
+
+.identity, .my-reservations {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 20px;
+    margin: 20px;
+    width: 90%;
+    max-width: 800px;
+}
+
+.identity {
+    margin-left: 110px;
+}
+
+.user-info {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.user-info h2 {
+    margin: 0 0 10px 0;
+    color: #ffffff;
+}
+
+.user-info p {
+    margin: 5px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.user-info a {
+    display: inline-block;
+    color: #ffffff;
+    text-decoration: none;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 15px;
+    border-radius: 8px;
+    margin-top: 10px;
+    transition: 0.3s ease;
+}
+
+.user-info a:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.my-reservations h1 {
+    text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
+}
+
+.reservations-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.reservations-table th {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.reservations-table td {
+    padding: 12px;
+    color: rgba(255, 255, 255, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.reservations-table tr:last-child td {
+    border-bottom: none;
+}
+
+.reservations-table tr:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transition: 0.3s ease;
 }

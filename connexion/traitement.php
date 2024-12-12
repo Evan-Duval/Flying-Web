@@ -32,7 +32,7 @@
                     ':birthday' => $birthday,
                 ]);
             
-                echo "<h3>Inscription terminée. Vous allez être rediriger vers la page de connexion...</h3>";
+                echo "<h3 style=\"color:white;\">Inscription terminée. Vous allez être redirigé vers la page de connexion...</h3>";
             
                 header(header: "refresh:2;url=connexion.php");
                 exit;
