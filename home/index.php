@@ -77,9 +77,6 @@
                     <button type="submit">Voir les prix</button>
                 </form>
             </div>
-            <div class="right">
-                
-            </div>
         </div>
     </div>
 

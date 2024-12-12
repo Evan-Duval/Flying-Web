@@ -11,7 +11,7 @@
 
     <nav class="sidebar">
         <div class="logo-menu">
-            <h2 class="logo">Flying Web</h2>
+            <h2 class="logo">FlyingWeb</h2>
             <i class='bx bx-menu toggle-btn'></i>
         </div>
 
