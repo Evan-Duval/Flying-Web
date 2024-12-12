@@ -11,39 +11,9 @@
 </head>
 <body>
 
-    <nav class="sidebar">
-        <div class="logo-menu">
-            <h2 class="logo">FlyingWeb</h2>
-            <i class='bx bx-menu toggle-btn'></i>
-        </div>
-
-        <ul class="list">
-            <li class="list-item active">
-                <a href="#">
-                    <i class='bx bxs-home'></i>
-                    <span class="link-name" style="--i:1;">Accueil</span>
-                </a>
-            </li>
-            <li class="list-item">
-                <a href="#">
-                    <i class='bx bxs-store'></i>
-                    <span class="link-name" style="--i:2;">- - - - -</span>
-                </a>
-            </li>
-            <li class="list-item">
-                <a href="../profil/profil.php">
-                    <i class='bx bxs-contact'></i>
-                    <span class="link-name" style="--i:3;">Profil</span>
-                </a>
-            </li>
-            <li class="list-item">
-                <a href="../connexion/connexion.php">
-                    <i class='bx bxs-user'></i>
-                    <span class="link-name" style="--i:4;">Se connecter</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <?php 
+        include '../components/navbar.php';
+    ?>
 
     <div class="title">
         <h1>FlyingWeb</h1>
@@ -75,7 +45,7 @@
                     <input id="date-retour" type="text" name="date-retour" style="display: none;" placeholder="Choisir une date de retour">
 
                     <button type="submit">Voir les prix</button>
-                </form>
+      n       </form>
             </div>
         </div>
     </div>
