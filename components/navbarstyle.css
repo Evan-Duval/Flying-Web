@@ -11,6 +11,7 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, .2);
     padding: 6px 14px;
     transition: .5s;
+    z-index: 1000;
 }
 
 .sidebar.active {
