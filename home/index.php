@@ -47,9 +47,6 @@
                     <button type="submit">Voir les prix</button>
       n       </form>
             </div>
-            <div class="right">
-                
-            </div>
         </div>
     </div>
 

@@ -13,6 +13,7 @@
         include '../components/navbar.php';
     ?>
 
+
     <div class="wrapper">
 
         <form action="traitement.php" method="post">

@@ -16,8 +16,8 @@
     <div class="identity">
 
         <div class="user-info">
-            <h2>Prénom</h2>
-            <h2>Nom</h2>
+            <h2 class="info">Prénom</h2>
+            <h2 class="info">Nom</h2>
             <p>Email: 123@example.com</p>
             <p>Date de naissance: 01/01/2000</p>
             <a href="#">Modifier mes informations</a>

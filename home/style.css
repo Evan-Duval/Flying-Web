@@ -40,16 +40,16 @@ h1 {
 .blank {
   width: 100%;
   min-height: auto;
-  background-color: #1a1a1a;
+  background-color: #333;
 }
 
 .resa-info {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     margin: 0;
-    padding-top: 3em;
-    padding-bottom: 3em;
+    padding-top: 5em;
+    padding-bottom: 5em;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -59,15 +59,15 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 50%;
+    width: 75%;
 }
 
 .reservation-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 35%;
-    margin-left: 10%;
+    width: 60%;
+    margin-left: 22%;
 }
 
 h2 {

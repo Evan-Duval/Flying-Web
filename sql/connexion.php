@@ -1,7 +1,7 @@
 <?php
 // Connexion à la base de données
 $host = 'localhost';
-$dbname = 'flyingweb'; 
+$dbname = 'flyingWeb'; 
 $user = 'root'; 
-$password = '';
+$password = 'root';
 ?>
