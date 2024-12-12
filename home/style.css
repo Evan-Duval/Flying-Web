@@ -143,7 +143,7 @@ h1 {
 
 .blank {
   width: 100%;
-  min-height: 60vh;
+  min-height: auto;
   background-color: #1a1a1a;
 }
 
@@ -151,8 +151,9 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin: 50px;
-    padding: 20px;
+    margin: 0;
+    padding-top: 3em;
+    padding-bottom: 3em;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -169,8 +170,8 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    width: 40%;
-    margin-left: 90px;
+    width: 35%;
+    margin-left: 10%;
 }
 
 h2 {
@@ -208,4 +209,34 @@ h2 {
 
 .reservation-form button:hover {
     background-color: #808080;
+}
+
+
+
+
+.banderolle {
+    background: url('../img/DALL·E\ 2024-12-11\ 15.05.35\ -\ A\ minimalist\ dark-themed\ wallpaper\ featuring\ small\,\ dark\ airplane\ silhouettes\ flying\ in\ different\ directions\ with\ simple\ arrows\ indicating\ their\ fligh.webp');
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+.text {
+    width: 90%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.text-object {
+    width: 27%;
+    margin: 1.8%;
+}
+
+h3 {
+    font-size: 1.6em;
+    margin-bottom: 4%;
 }
