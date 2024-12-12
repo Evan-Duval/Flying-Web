@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="../components/navbar/navbarstyle.css">
+    <link rel="stylesheet" href="../components/navbarstyle.css">
 </head>
 
 <body>
