@@ -14,12 +14,16 @@
     ?>
 
     <div class="identity">
+        <?php
+            include '../session/session.php';
+        ?>
 
         <div class="user-info">
-            <h2 class="info">Prénom</h2>
-            <h2 class="info">Nom</h2>
-            <p>Email: 123@example.com</p>
-            <p>Date de naissance: 01/01/2000</p>
+            <h2 class="info"><?php echo htmlspecialchars($user['first_name'])?></h2>
+            <h2 class="info"><?php echo htmlspecialchars($user['last_name'])?></h2>
+            <p>Email: <?php echo htmlspecialchars($user['email'])?></p>
+            <p>Date de Naissance (YYYY/MM/DD) : <?php echo htmlspecialchars($user['birthday'])?></p>
+            <p>Mot de Passe : (caché) <a href="#">Modifier</a> </p>
             <a href="#">Modifier mes informations</a>
             <a href="#">Supprimer mon compte</a>
         </div>

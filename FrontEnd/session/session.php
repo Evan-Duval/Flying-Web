@@ -21,7 +21,7 @@ $user = json_decode($response, true);
 
 // Vérifiez si la requête a réussi
 if ($httpCode == 200) {
-    echo "Bonjour " . htmlspecialchars($user['name']) . "!";
+    return $user;
 } else {
     echo "Impossible de récupérer les informations de l'utilisateur.";
 }
