@@ -2,12 +2,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Récupérer tous les éléments list-item
     const listItems = document.querySelectorAll('.list-item');
     
-    // Fonction pour extraire le nom du dossier d'une URL
+    // Fonction pour extraire le nom du dossier pertinent de l'URL
     function getFolderName(path) {
-        // Expression régulière pour trouver le dossier après Flying-Web/
-        const regex = /Flying-Web\/([^\/]+)/;
-        const match = path.match(regex);
-        return match ? match[1] : '';
+        // Diviser le chemin en segments
+        const segments = path.split('/');
+        // Filtrer les segments vides
+        const validSegments = segments.filter(segment => segment.length > 0);
+        
+        // Parcourir les segments pour trouver les dossiers principaux
+        for (let segment of validSegments) {
+            if (['home', 'connexion', 'profil', 'boutique'].includes(segment)) {
+                return segment;
+            }
+        }
+        return '';
     }
     
     // Pour chaque élément de la liste
@@ -39,7 +47,6 @@ document.addEventListener('DOMContentLoaded', function() {
     listItems.forEach(item => {
         const link = item.querySelector('a');
         const href = link.getAttribute('href');
-        // Construire le chemin complet pour les liens relatifs
         const fullPath = new URL(href, window.location.href).pathname;
         const linkFolder = getFolderName(fullPath);
         
