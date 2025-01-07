@@ -32,7 +32,7 @@ class AuthController extends Controller
             'email'=>'required|string|unique:users',
             'password'=>'required|string|min:8',
             'c_password' => 'required|same:password',
-            'birthday' => 'required|date',
+            'birthday' => 'required|string',
         ]);
 
         $user = new User([
