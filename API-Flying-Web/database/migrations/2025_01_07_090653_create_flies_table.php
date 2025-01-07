@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('flightNumber');
             $table->integer('flightDuration');
             $table->timestamps();
+            $table->foreignId('plane_id')->constrained()->onDelete('cascade');
+            $table->foreignId('aeroport_id')->constrained()->onDelete('cascade');
         });
     }
 

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('type');
             $table->integer('placeNumber');
             $table->timestamps();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('flie_id')->constrained()->onDelete('cascade');
         });
     }
 
