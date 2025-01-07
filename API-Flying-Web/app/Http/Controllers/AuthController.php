@@ -169,7 +169,7 @@ class AuthController extends Controller
      * returns a JSON response with an error message and the specific error message caught in the catch
      * block.
      */
-    
+
     // public function resetpassword(Request $request)
     // {
     //     // Validation de l'email
@@ -204,3 +204,8 @@ class AuthController extends Controller
     // }
 
 }
+
+
+/*
+Exctracted from https://demos.pixinvent.com/vuexy-vuejs-admin-template/documentation/guide/laravel-integration/laravel-sanctum-authentication.html
+*/
