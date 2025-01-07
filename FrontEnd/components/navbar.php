@@ -10,18 +10,18 @@
         </div>
 
         <ul class="list">
-            <li class="list-item active">
+            <li class="list-item">
                 <a href="../home/index.php">
                     <i class='bx bxs-home'></i>
                     <span class="link-name" style="--i:1;">Accueil</span>
                 </a>
             </li>
-            <li class="list-item">
+            <!-- <li class="list-item">
                 <a href="#">
                     <i class='bx bxs-store'></i>
                     <span class="link-name" style="--i:2;">Boutique</span>
                 </a>
-            </li>
+            </li> -->
             <li class="list-item">
                 <a href="../profil/profil.php">
                     <i class='bx bxs-contact'></i>
@@ -36,4 +36,6 @@
             </li>
         </ul>
     </nav>
+
+    <script src="../components/navbarscript.js"></script>
 </body>
