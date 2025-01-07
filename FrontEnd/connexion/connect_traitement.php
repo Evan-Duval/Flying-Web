@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     // Récupération des données du formulaire
     $email = $_POST['email'] ?? null;
     $password = $_POST['password'] ?? null;
@@ -30,18 +32,21 @@
     // Gestion de la réponse
     if ($httpCode == 200) {
         // Succès
-        echo "<h3 style=\"color:white;\">Connexion réussie. Vous allez être redirigé vers la page d'accueil...</h3>";
+        $_SESSION['auth_token'] = $result['accessToken'];
+
+        // Redirection ou affichage d'un message de succès
+        echo "<h3 style=\"color:green;\">Connexion réussie ! Vous allez être redirigé...</h3>";
         header("refresh:2;url=../home/index.php");
         exit;
     } else {
-        // Erreur
-        $errorMessage = isset($result['message']) ? $result['message'] : "Une erreur est survenue lors de l'inscription";
-        echo "<h3>Erreur : " . htmlspecialchars($errorMessage) . "</h3>";
+        // Échec - Affichage du message d'erreur
+        $errorMessage = $result['message'] ?? 'Erreur de connexion. Veuillez réessayer.';
+        echo "<h3 style=\"color:red;\">Erreur : " . htmlspecialchars($errorMessage) . "</h3>";
         echo "<div class=\"wrapper\">
                 <div class=\"register-link\"> 
-                    <p>Retourner à l'inscription ? <a href=\"inscription.php\">Réessayer</a></p> 
+                    <p>Retourner à la connexion ? <a href=\"connexion.php\">Réessayer</a></p> 
                 </div>
-            </div>";
+              </div>";
     }
 
 ?>
