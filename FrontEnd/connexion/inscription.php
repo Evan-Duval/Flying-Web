@@ -15,15 +15,15 @@
 
     <div class="wrapper">
 
-        <form action="traitement.php" method="post">
+        <form action="insc_traitement.php" method="post">
 
             <h1>Inscription</h1>
             <div class="input-box">
-                <input type="text" id="firstName" name="firstName" placeholder="Prénom" required>
+                <input type="text" id="first_name" name="first_name" placeholder="Prénom" required>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="input-box">
-            <input type="text" id="lastName" name="lastName" placeholder="Nom" required>
+            <input type="text" id="last_name" name="last_name" placeholder="Nom" required>
                 <i class='bx bxs-user'></i>
             </div>
             <div class="input-box">
@@ -36,6 +36,10 @@
             </div>
             <div class="input-box">
                 <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+                <i class='bx bxs-lock-alt' ></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="c_password" name="c_password" placeholder="Confirmer le Mot de passe" required>
                 <i class='bx bxs-lock-alt' ></i>
             </div>
 
