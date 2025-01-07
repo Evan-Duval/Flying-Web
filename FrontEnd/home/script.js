@@ -1,12 +1,3 @@
-const sidebar = document. querySelector ('.sidebar');
-const toggleBtn = document. querySelector('.toggle-btn');
-
-toggleBtn.addEventListener('click', () => {
-    sidebar.classList. toggle('active');
-}) ;
-
-
-
 const typeSelectionne = document.getElementById('type');
 const dateRetour = document.getElementById('date-retour');
 const dateRetourLabel = document.getElementById('date-retour-label');

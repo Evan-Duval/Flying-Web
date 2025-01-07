@@ -21,7 +21,7 @@
         <div class="user-info">
             <h2 class="info"><?php echo htmlspecialchars($user['first_name'])?></h2>
             <h2 class="info"><?php echo htmlspecialchars($user['last_name'])?></h2>
-            <p>Email: <?php echo htmlspecialchars($user['email'])?></p>
+            <p>Email : <?php echo htmlspecialchars($user['email'])?></p>
             <p>Date de Naissance (YYYY/MM/DD) : <?php echo htmlspecialchars($user['birthday'])?></p>
             <p>Mot de Passe : (caché) <a href="#">Modifier</a> </p>
             <a href="#">Modifier mes informations</a>
