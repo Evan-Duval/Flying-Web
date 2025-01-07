@@ -16,7 +16,7 @@
 
     <div class="wrapper">
 
-        <form action="traitement.php" method="post">
+        <form action="connect_traitement.php" method="post">
 
             <h1>Connexion</h1>
             <div class="input-box">
