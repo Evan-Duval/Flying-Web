@@ -45,7 +45,7 @@
                     <input id="date-retour" type="text" name="date-retour" style="display: none;" placeholder="Choisir une date de retour">
 
                     <button type="submit">Voir les prix</button>
-      n       </form>
+                </form>
             </div>
         </div>
     </div>
