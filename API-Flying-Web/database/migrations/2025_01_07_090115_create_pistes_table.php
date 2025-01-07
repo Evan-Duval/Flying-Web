@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('pisteNumber');
             $table->integer('pisteLenght');
             $table->timestamps();
+            $table->foreignId('aeroport_id')->constrained()->onDelete('cascade');
         });
     }
 
