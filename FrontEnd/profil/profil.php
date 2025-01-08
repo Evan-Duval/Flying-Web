@@ -15,11 +15,7 @@
 
     <div class="identity">
         <?php     
-            if (!isset($_SESSION['user'])) {
-                echo "<p style=\"text-align:center;color:white;font-size:2em;width=100%\"Veuillez vous connecter pour accéder à cette page.</p>";
-            }
-
-            include '../session/session.php';
+            include '../session/session.php'
         ?>
 
         <div class="user-info">

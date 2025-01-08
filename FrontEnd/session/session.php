@@ -2,7 +2,8 @@
 session_start();
 
 if (!isset($_SESSION['auth_token'])) {
-    die("Veuillez vous connecter pour accéder à cette page");
+    die("<p style=\"color:white; font-size:2em; text-align:center;\">Veuillez vous connecter pour accéder à cette page. <a style=\"display: inline-block;
+    color: #000; text-decoration: none;\"href=\"../connexion/connexion.php\">Se connecter</a></p>");
 }
 
 // Configuration de la requête pour obtenir l'utilisateur
