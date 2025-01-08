@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     // Récupération des données du formulaire
     $email = $_POST['email'] ?? null;
     $password = $_POST['password'] ?? null;

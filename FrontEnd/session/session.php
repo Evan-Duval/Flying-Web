@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['auth_token'])) {
-    die("Utilisateur non authentifié.");
+    die("Veuillez vous connecter pour accéder à cette page");
 }
 
 // Configuration de la requête pour obtenir l'utilisateur

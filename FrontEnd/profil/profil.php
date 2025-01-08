@@ -14,7 +14,11 @@
     ?>
 
     <div class="identity">
-        <?php
+        <?php     
+            if (!isset($_SESSION['user'])) {
+                echo "<p style=\"text-align:center;color:white;font-size:2em;width=100%\"Veuillez vous connecter pour accéder à cette page.</p>";
+            }
+
             include '../session/session.php';
         ?>
 
@@ -25,6 +29,7 @@
             <p>Date de Naissance (YYYY/MM/DD) : <?php echo htmlspecialchars($user['birthday'])?></p>
             <p>Mot de Passe : (caché) <a href="#">Modifier</a> </p>
             <a href="#">Modifier mes informations</a>
+            <a href="../home/index.php" onclick="<?php session_unset(); session_destroy();?>">Me déconnecter</a>
             <a href="#">Supprimer mon compte</a>
         </div>
 
