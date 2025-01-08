@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -20,6 +21,16 @@ class ReservationController extends Controller
         } else {
             return response()->json($reservation, 200);
         }      
+    }
+
+    public function getByUser(int $id): JsonResponse {
+        $user = User::find($id);
+        if (!$user) {
+            return response()->json(['message' => 'Aucun utilisateur trouvé !'], 404);
+        } else {
+            $reservations = Reservation::where('user_id', $id)->get();
+            return response()->json($reservations, 200);
+        }
     }
 
     public function create(Request $request): JsonResponse { 

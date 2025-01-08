@@ -9,23 +9,27 @@
 </head>
 <body>
 
-<?php 
+    <?php
         include '../components/navbar.php';
     ?>
 
     <div class="identity">
-        <?php     
-            include '../session/session.php'
+        <?php   
+            session_start();  
+            if (!isset ($_SESSION['user'])) {
+                die("<p style=\"color:white; font-size:2em; text-align:center;\">Veuillez vous connecter pour accéder à cette page. <a style=\"display: inline-block;
+    color: #000; text-decoration: none;\"href=\"../connexion/connexion.php\">Se connecter</a></p>");
+            };
         ?>
 
         <div class="user-info">
-            <h2 class="info"><?php echo htmlspecialchars($user['first_name'])?></h2>
-            <h2 class="info"><?php echo htmlspecialchars($user['last_name'])?></h2>
-            <p>Email : <?php echo htmlspecialchars($user['email'])?></p>
-            <p>Date de Naissance (YYYY/MM/DD) : <?php echo htmlspecialchars($user['birthday'])?></p>
+            <h2 class="info"><?php echo htmlspecialchars($_SESSION['user']['first_name'])?></h2>
+            <h2 class="info"><?php echo htmlspecialchars($_SESSION['user']['last_name'])?></h2>
+            <p>Email : <?php echo htmlspecialchars($_SESSION['user']['email'])?></p>
+            <p>Date de Naissance (YYYY/MM/DD) : <?php echo htmlspecialchars($_SESSION['user']['birthday'])?></p>
             <p>Mot de Passe : (caché) <a href="#">Modifier</a> </p>
             <a href="#">Modifier mes informations</a>
-            <a href="../home/index.php" onclick="<?php session_unset(); session_destroy();?>">Me déconnecter</a>
+            <a href="../connexion/logout.php">Se déconnecter</a>
             <a href="#">Supprimer mon compte</a>
         </div>
 

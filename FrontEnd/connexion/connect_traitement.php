@@ -1,5 +1,7 @@
-<?php
-    session_start();
+<?php 
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 
     // Récupération des données du formulaire
     $email = $_POST['email'] ?? null;
@@ -33,6 +35,9 @@
     if ($httpCode == 200) {
         // Succès
         $_SESSION['auth_token'] = $result['accessToken'];
+        session_write_close(); // Force l'enregistrement des données de session
+        
+        include '../session/session.php';
 
         // Redirection ou affichage d'un message de succès
         echo "<h3 style=\"color:green;\">Connexion réussie ! Vous allez être redirigé...</h3>";

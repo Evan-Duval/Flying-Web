@@ -69,6 +69,7 @@ Route::prefix('plane')->group(function () {
 Route::prefix('reservation')->group(function () {
   Route::get('get-all', [ReservationController::class, 'getAll']);  
   Route::get('get-by-id/{id}', [ReservationController::class, 'getById']);
+  Route::get('get-by-user/{id}', [ReservationController::class, 'getByUser']);
   Route::post('create', [ReservationController::class, 'create']);
   Route::put('update/{id}', [ReservationController::class, 'update']);
   Route::delete('delete/{id}', [ReservationController::class, 'delete']);
