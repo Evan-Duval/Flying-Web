@@ -24,7 +24,7 @@ Route::prefix('auth')->group( function () {
   Route::post('login', [AuthController::class, 'login']);
   Route::post('register', [AuthController::class, 'register']);
   Route::post('reset-password', [AuthController::class, 'resetpassword']);
-  Route::post('update-password', [AuthController::class,'changepassword']);
+  Route::post('update-password', [AuthController::class,'changePassword']);
 
   Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('logout', [AuthController::class, 'logout']);
@@ -74,3 +74,4 @@ Route::prefix('reservation')->group(function () {
   Route::put('update/{id}', [ReservationController::class, 'update']);
   Route::delete('delete/{id}', [ReservationController::class, 'delete']);
 });
+

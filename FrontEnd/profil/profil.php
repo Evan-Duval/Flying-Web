@@ -26,7 +26,28 @@
             <h2 class="info"><?php echo htmlspecialchars($_SESSION['user']['last_name'])?></h2>
             <p>Email : <?php echo htmlspecialchars($_SESSION['user']['email'])?></p>
             <p>Date de Naissance (YYYY/MM/DD) : <?php echo htmlspecialchars($_SESSION['user']['birthday'])?></p>
-            <p>Mot de Passe : (caché) <a href="#">Modifier</a> </p>
+            <p>Mot de Passe : (caché) <a href="#" id="show-password-form">Modifier</a></p>
+                <div id="password-form" style="display: none;">
+                    <form id="change-password-form" method="POST" action="http://127.0.0.1:8000/api/auth/update-password">
+                        <br>
+                        <label for="current_password">Mot de passe actuel :</label>
+                        <input type="password" id="current_password" name="current_password" required>
+                        <br>
+                        <br>
+                        <label for="new_password">Nouveau mot de passe :</label>
+                        <input type="password" id="new_password" name="new_password" required>
+                        <br>
+                        <br>
+                        <label for="new_password_confirmation">Confirmer le mot de passe :</label>
+                        <input type="password" id="new_password_confirmation" name="new_password_confirmation" required>
+                        <br>
+                        <br>
+                        <input type="hidden" id="email" name="email" value="<?php echo htmlspecialchars($_SESSION['user']['email']); ?>">
+                        <button type="submit">Modifier</button>
+                        <br>
+                        <br>
+                    </form>
+                </div>
             <a href="#">Modifier mes informations</a>
             <a href="../connexion/logout.php">Se déconnecter</a>
             <a href="#">Supprimer mon compte</a>
@@ -79,5 +100,13 @@
 
 
     <script src="script.js"></script>
+                    
+    <script>
+    document.getElementById('show-password-form').addEventListener('click', function(event) {
+        event.preventDefault();
+        const form = document.getElementById('password-form');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    });
+    </script>
 </body>
 </html>

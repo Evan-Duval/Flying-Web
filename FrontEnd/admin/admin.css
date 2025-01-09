@@ -130,8 +130,8 @@ select {
     cursor: pointer;
 }
 
-option:disabled {
-    color: #999;
+button a:hover {
+    color: #e0e0e0; /* Légère variation a u survol */
 }
 
 /* Add responsiveness */
