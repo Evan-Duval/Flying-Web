@@ -9,22 +9,27 @@
 </head>
 <body>
 
-<?php 
+    <?php
         include '../components/navbar.php';
     ?>
 
     <div class="identity">
-        <?php
-            include '../session/session.php';
+        <?php   
+            session_start();  
+            if (!isset ($_SESSION['user'])) {
+                die("<p style=\"color:white; font-size:2em; text-align:center;\">Veuillez vous connecter pour accéder à cette page. <a style=\"display: inline-block;
+    color: #000; text-decoration: none;\"href=\"../connexion/connexion.php\">Se connecter</a></p>");
+            };
         ?>
 
         <div class="user-info">
-            <h2 class="info"><?php echo htmlspecialchars($user['first_name'])?></h2>
-            <h2 class="info"><?php echo htmlspecialchars($user['last_name'])?></h2>
-            <p>Email : <?php echo htmlspecialchars($user['email'])?></p>
-            <p>Date de Naissance (YYYY/MM/DD) : <?php echo htmlspecialchars($user['birthday'])?></p>
+            <h2 class="info"><?php echo htmlspecialchars($_SESSION['user']['first_name'])?></h2>
+            <h2 class="info"><?php echo htmlspecialchars($_SESSION['user']['last_name'])?></h2>
+            <p>Email : <?php echo htmlspecialchars($_SESSION['user']['email'])?></p>
+            <p>Date de Naissance (YYYY/MM/DD) : <?php echo htmlspecialchars($_SESSION['user']['birthday'])?></p>
             <p>Mot de Passe : (caché) <a href="#">Modifier</a> </p>
             <a href="#">Modifier mes informations</a>
+            <a href="../connexion/logout.php">Se déconnecter</a>
             <a href="#">Supprimer mon compte</a>
         </div>
 
@@ -35,31 +40,44 @@
 
         <div class="reservation">
             <table class="reservations-table">
+                <thead>
+                    <tr>
+                        <th>Date et heure</th>
+                        <th>Type</th>
+                        <th>Numéro de siège</th>
+                        <th>ID de l'utilisateur</th>
+                        <th>ID du vol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    include '../components/api/myreservations.php';
 
-            <tr>
-                <th>Date</th>
-                <th>Type</th>
-                <th>Numéro de Siège</th>
-                <th>Informations de vol</th>
-            </tr>
-
-            <tr>
-                <td>01/01/2022</td>
-                <td>Aller simple</td>
-                <td>A1</td>
-                <td>Aéroport de Paris-Charles-de-Gaulle à Aéroport de Rennes</td>
-            </tr>
-
-            <tr>
-                <td>02/01/2022</td>
-                <td>Aller-Retour</td>
-                <td>A2</td>
-                <td>Aéroport de Rennes à Aéroport de Paris-Charles-de-Gaulle</td>
-            </tr>
-
+                    // Vérification si des réservations existent
+                    if (isset($_SESSION['user']['reservations']) && !empty($_SESSION['user']['reservations'])) {
+                        foreach ($_SESSION['user']['reservations'] as $reservation) {
+                            // Vérification que chaque réservation est un tableau
+                            if (is_array($reservation)) {
+                                echo "<tr>";
+                                echo "<td>" . htmlspecialchars($reservation['dateTime']) . "</td>";
+                                echo "<td>" . htmlspecialchars($reservation['type']) . "</td>";
+                                echo "<td>" . htmlspecialchars($reservation['placeNumber']) . "</td>";
+                                echo "<td>" . htmlspecialchars($reservation['user_id']) . "</td>";
+                                echo "<td>" . htmlspecialchars($reservation['flie_id']) . "</td>";
+                                echo "</tr>";
+                            } else {
+                                echo "<tr><td colspan='5'>Réservation invalide</td></tr>";
+                            }
+                        }
+                    } else {
+                        echo "<tr><td colspan='5'>Aucune réservation trouvée.</td></tr>";
+                    }
+                    ?>
+                </tbody>
             </table>
         </div>
     </div>
+
 
     <script src="script.js"></script>
 </body>

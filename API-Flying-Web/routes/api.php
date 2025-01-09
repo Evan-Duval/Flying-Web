@@ -20,14 +20,16 @@ use App\Http\Controllers\ReservationController;
 |
 */
 
-Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
+Route::prefix('auth')->group( function () {
+  Route::post('login', [AuthController::class, 'login']);
+  Route::post('register', [AuthController::class, 'register']);
+  Route::post('reset-password', [AuthController::class, 'resetpassword']);
+  Route::post('update-password', [AuthController::class,'changepassword']);
 
-    Route::group(['middleware' => 'auth:sanctum'], function() {
-      Route::get('logout', [AuthController::class, 'logout']);
-      Route::get('user', [AuthController::class, 'user']);
-    });
+  Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('user', [AuthController::class, 'user']);
+  });
 });
 
 
@@ -67,6 +69,7 @@ Route::prefix('plane')->group(function () {
 Route::prefix('reservation')->group(function () {
   Route::get('get-all', [ReservationController::class, 'getAll']);  
   Route::get('get-by-id/{id}', [ReservationController::class, 'getById']);
+  Route::get('get-by-user/{id}', [ReservationController::class, 'getByUser']);
   Route::post('create', [ReservationController::class, 'create']);
   Route::put('update/{id}', [ReservationController::class, 'update']);
   Route::delete('delete/{id}', [ReservationController::class, 'delete']);
