@@ -40,7 +40,7 @@
     // Gestion de la réponse
     if ($httpCode == 201 || $httpCode == 200) {
         // Succès
-        echo "<h3 style=\"color:white;\">Inscription terminée. Vous allez être redirigé vers la page de connexion...</h3>";
+        echo "<h3 style=\"color:green;\">Inscription terminée. Vous allez être redirigé vers la page de connexion...</h3>";
         header("refresh:2;url=connexion.php");
         exit;
     } else {
