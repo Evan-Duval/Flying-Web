@@ -6,6 +6,7 @@
     $password = $_POST['password'] ?? null;
     $c_password = $_POST['c_password'] ?? null;
     $birthday = $_POST['birthday'] ?? null;
+    $rank = "user";
 
     // Préparation des données pour l'API
     $data = array(
@@ -14,7 +15,8 @@
         'email' => $email,
         'password' => $password,
         'c_password' => $c_password,
-        'birthday' => $birthday
+        'birthday' => $birthday,
+        'rank' => $rank
     );
 
     // Configuration de la requête cURL
@@ -38,7 +40,7 @@
     // Gestion de la réponse
     if ($httpCode == 201 || $httpCode == 200) {
         // Succès
-        echo "<h3 style=\"color:white;\">Inscription terminée. Vous allez être redirigé vers la page de connexion...</h3>";
+        echo "<h3 style=\"color:green;\">Inscription terminée. Vous allez être redirigé vers la page de connexion...</h3>";
         header("refresh:2;url=connexion.php");
         exit;
     } else {

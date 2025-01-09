@@ -15,7 +15,6 @@
 
     <div class="identity">
         <?php   
-            session_start();  
             if (!isset ($_SESSION['user'])) {
                 die("<p style=\"color:white; font-size:2em; text-align:center;\">Veuillez vous connecter pour accéder à cette page. <a style=\"display: inline-block;
     color: #000; text-decoration: none;\"href=\"../connexion/connexion.php\">Se connecter</a></p>");
