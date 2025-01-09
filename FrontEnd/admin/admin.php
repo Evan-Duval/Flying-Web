@@ -13,6 +13,7 @@
 
     <?php 
         include '../components/navbar.php';
+        include '../components/api/adminverif.php';
     ?>
 
     <div class="buttons">
