@@ -16,11 +16,8 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-
-
+    color: #fff;
 }
-
-
 
 .title {
     display: flex;
@@ -135,4 +132,30 @@ h3 {
 .reservations-table tr:hover {
     background: rgba(255, 255, 255, 0.1);
     transition: 0.3s ease;
+}
+
+input {
+    padding: 5px;
+    border: none;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    font-size: 16px;
+}
+
+form > button {
+    padding: 6px 13px;
+    border: none;
+    border-radius: 12px;
+    background: #ffffff;
+    font-size: 16px;
+}
+
+form > button:hover {
+    padding: 5px 12px;
+    border: 1px solid #fff;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.4);
+    font-size: 16px;
+    color: #fff;
 }
