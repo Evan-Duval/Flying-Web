@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('identification');
             $table->integer('nbPlace');
             $table->string('dimension');
-            $table->string('position');
             $table->timestamps();
             $table->foreignId('aeroport_id')->constrained()->onDelete('cascade');
         });
