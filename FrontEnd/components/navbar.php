@@ -34,6 +34,12 @@
                     <span class="link-name" style="--i:4;">Se connecter</span>
                 </a>
             </li>
+            <li class="list-item">
+                <a href="../admin/admin.php">
+                    <i class='bx bxs-data'></i>
+                    <span class="link-name" style="--i:5;">Se connecter</span>
+                </a>
+            </li>
         </ul>
     </nav>
 

@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Plane extends Model
 {
-    protected $fillabe = [
+    protected $fillable = [
         'model',
         'identification',
         'nbPlace',
         'dimension',
-        'position',
+        'aeroport_id'
     ];
 
     public function aeroport() {
