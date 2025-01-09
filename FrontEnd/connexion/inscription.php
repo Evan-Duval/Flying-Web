@@ -14,42 +14,50 @@
     ?>
 
     <div class="wrapper">
+        
+    <?php
+        if (isset($_SESSION['user'])) {
+            echo "<h2>Vous êtes connecté en tant que " . $_SESSION['user']['first_name']. " " . $_SESSION['user']['last_name'] . ". <a href=\"logout.php\">Déconnexion</a></h2>";
+        } else {
+            echo
+            "<form action=\"insc_traitement.php\" method=\"post\">
 
-        <form action="insc_traitement.php" method="post">
+                <h1>Inscription</h1>
+                <div class=\"input-box\">
+                    <input type=\"text\" id=\"first_name\" name=\"first_name\" placeholder=\"Prénom\" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class=\"input-box\">
+                <input type=\"text\" id=\"last_name\" name=\"last_name\" placeholder=\"Nom\" required>
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div class=\"input-box\">
+                    <input type=\"email\" id=\"email\" name=\"email\" placeholder=\"Adresse e-mail\" required>
+                    <i class='bx bxs-envelope'></i>
+                </div>
+                <div class=\"input-box\">
+                    <input type=\"date\" id=\"birthday\" name=\"birthday\" placeholder=\"Date de naissance\" required>
+                    <i class='bx bxs-calendar'></i>
+                </div>
+                <div class=\"input-box\">
+                    <input type=\"password\" id=\"password\" name=\"password\" placeholder=\"Mot de passe\" required>
+                    <i class='bx bxs-lock-alt' ></i>
+                </div>
+                <div class=\"input-box\">
+                    <input type=\"password\" id=\"c_password\" name=\"c_password\" placeholder=\"Confirmer le Mot de passe\" required>
+                    <i class='bx bxs-lock-alt' ></i>
+                </div>
 
-            <h1>Inscription</h1>
-            <div class="input-box">
-                <input type="text" id="first_name" name="first_name" placeholder="Prénom" required>
-                <i class='bx bxs-user'></i>
-            </div>
-            <div class="input-box">
-            <input type="text" id="last_name" name="last_name" placeholder="Nom" required>
-                <i class='bx bxs-user'></i>
-            </div>
-            <div class="input-box">
-                <input type="email" id="email" name="email" placeholder="Adresse e-mail" required>
-                <i class='bx bxs-envelope'></i>
-            </div>
-            <div class="input-box">
-                <input type="date" id="birthday" name="birthday" placeholder="Date de naissance" required>
-                <i class='bx bxs-calendar'></i>
-            </div>
-            <div class="input-box">
-                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
-                <i class='bx bxs-lock-alt' ></i>
-            </div>
-            <div class="input-box">
-                <input type="password" id="c_password" name="c_password" placeholder="Confirmer le Mot de passe" required>
-                <i class='bx bxs-lock-alt' ></i>
-            </div>
+                <button type=\"submit\" class=\"btn\">S'inscrire</button>
 
-            <button type="submit" class="btn">S'inscrire</button>
+                <div class=\"register-link\">
+                    <p>Vous avez déjà un compte ? <a href=\"connexion.php\">Se connecter</a></p>
+                </div>
 
-            <div class="register-link">
-                <p>Vous avez déjà un compte ? <a href="connexion.php">Se connecter</a></p>
-            </div>
+            </form>";
+        }
 
-        </form>
+    ?>
     </div>
 
     <script src="script.js"></script>

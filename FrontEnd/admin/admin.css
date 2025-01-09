@@ -1,158 +1,144 @@
 /* Style général */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
 }
 
-/* Conteneur du formulaire */
-form {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: 20px 30px;
-    width: 100%;
-    max-width: 400px;
-}
-
-/* Titres et étiquettes */
-form label {
+body {
     display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-    color: #555;
-}
-
-/* Champs de formulaire */
-form input[type="text"],
-form input[type="number"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    color: #333;
-    box-sizing: border-box;
-}
-
-form input[type="text"]:focus,
-form input[type="number"]:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
-}
-
-/* Bouton de soumission */
-form button {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    width: 100%;
-    text-align: center;
-    transition: background-color 0.3s ease;
-}
-
-form button:hover {
-    background-color: #0056b3;
-}
-
-/* Formulaire centré et responsive */
-@media (max-width: 768px) {
-    form {
-        padding: 15px 20px;
-    }
-
-    form label,
-    form button {
-        font-size: 14px;
-    }
-}
-
-
-/* Style du champ select */
-form select {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-    color: #333;
-    background-color: #fff;
-    appearance: none; /* Supprime l'apparence native de la flèche sur certains navigateurs */
-    box-sizing: border-box;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%204%205%22%3E%3Cpath%20fill%3D%22%23ccc%22%20d%3D%22M2%205L0%200h4z%22/%3E%3C/svg%3E');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px;
-    cursor: pointer;
-}
-
-form select:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
-}
-
-/* Pour améliorer l'apparence de la flèche uniquement sur les navigateurs qui supportent appearance */
-@supports (appearance: none) {
-    form select {
-        padding-right: 30px; /* Ajoute un espace pour la flèche personnalisée */
-    }
-}
-
-
-/* admin.css */
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
-    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
+    background: url('../img/background-profil.jpeg') no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Style page accès refusé */
+.noaccess {
+    color: #fff;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.21);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.6px);
+    -webkit-backdrop-filter: blur(7.6px);
+}
+
+.logo {
+    width: 25%;
+    height: 25%;
+    padding-bottom: 25px;
+}
+
+.noaccess h3 {
+    color: #000;
+    padding-top: 10px;
+}
+
+
+
+/* Style pour les formulaires */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    color: white;
+    padding: 15px;
+    z-index: 99;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
+.form-container {
+    margin-left: 110px; /* 90px for the navbar + 20px spacing */
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+form {
+    background: rgba(255, 255, 255, 0.23);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.1px);
+    -webkit-backdrop-filter: blur(7.1px);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+form h3 {
+    margin-bottom: 15px;
+    color: #f5f5f5;
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 button {
-    background-color: #007BFF; /* Couleur principale */
+    background-color: #3498db;
+    color: #fff;
     border: none;
-    color: white;
-    padding: 15px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 10px;
-    border-radius: 5px;
+    padding: 10px;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
     transition: background-color 0.3s ease;
 }
 
-button a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-}
-
 button:hover {
-    background-color: #0056b3; /* Couleur au survol */
+    background-color: #2980b9;
 }
 
-button a:hover {
-    color: #e0e0e0; /* Légère variation au survol */
+select {
+    background-color: #f9f9f9;
+    appearance: none;
+    cursor: pointer;
+}
+
+option:disabled {
+    color: #999;
+}
+
+/* Add responsiveness */
+@media (max-width: 768px) {
+    .form-container {
+        margin-left: 90px; /* Adjust navbar space for smaller screens */
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
 }
