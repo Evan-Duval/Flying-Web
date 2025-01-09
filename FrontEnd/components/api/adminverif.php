@@ -7,10 +7,24 @@
     if (isset($_SESSION['user'])) {
         $user = $_SESSION['user'];
         if ($user['rank'] !== 'admin') {
-            die("<h1>Accès refusé</h1>");
+            die(
+                "<div class=\"noaccess\">
+                    <img src=\"../img/denied-access.png\" alt=\"noacess\" class=\"logo\">
+
+                    <h1>Accès refusé</h1>
+                    <h3>Vous avez besoin des permissions Admin pour accéder à cette page</h3>
+                </div>"
+            );
         }
     } else {
-        die("<h1>Accès refusé</h1>");
+        die(
+            "<div class=\"noaccess\">
+                <img src=\"../img/denied-access.png\" alt=\"noacess\" class=\"logo\">
+
+                <h1>Accès refusé</h1>
+                <h3>Vous avez besoin des permissions Admin pour accéder à cette page</h3>
+            </div>"
+        );
     }
 
 ?>
