@@ -7,27 +7,30 @@
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="admin.css">
-    <title>Admin</title>
+    <title>Admin Panel</title>
 </head>
 <body>
 
     <?php 
         include '../components/navbar.php';
     ?>
-  
-    <a href="plane/plane.php">
-        <button>Ajouter un avion</button> 
-    </a>
-    
-    <a href="aeroport/aeroport.php">
-        <button>Ajouter un aéroport</button>
-    </a>
-    
-    <a href="piste/piste.php">
-        <button>Ajouter une/des piste(s) à un aéroport</button>
-    </a>
+
+    <div class="buttons">
+        <a href="plane/plane.php">
+            <button>Ajouter un avion</button> 
+        </a>
+        
+        <a href="aeroport/aeroport.php">
+            <button>Ajouter un aéroport</button>
+        </a>
+        
+        <a href="piste/piste.php">
+            <button>Ajouter une/des piste(s) à un aéroport</button>
+        </a>
+    </div>
 
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    
 </body>
 </html>

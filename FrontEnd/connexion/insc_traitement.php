@@ -6,6 +6,7 @@
     $password = $_POST['password'] ?? null;
     $c_password = $_POST['c_password'] ?? null;
     $birthday = $_POST['birthday'] ?? null;
+    $rank = "user";
 
     // Préparation des données pour l'API
     $data = array(
@@ -14,7 +15,8 @@
         'email' => $email,
         'password' => $password,
         'c_password' => $c_password,
-        'birthday' => $birthday
+        'birthday' => $birthday,
+        'rank' => $rank
     );
 
     // Configuration de la requête cURL

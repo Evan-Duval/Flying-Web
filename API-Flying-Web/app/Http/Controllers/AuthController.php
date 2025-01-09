@@ -33,6 +33,7 @@ class AuthController extends Controller
             'password'=>'required|string|min:8',
             'c_password' => 'required|same:password',
             'birthday' => 'required|string',
+            'rank' => 'required|string',
         ]);
 
         $user = new User([
@@ -41,6 +42,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'birthday' => $request->birthday,
+            'rank' => $request->rank,
         ]);
 
         if($user->save()){
