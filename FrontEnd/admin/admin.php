@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <!-- Flatpickr CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="css/admin.css">
     <title>Admin Panel</title>
 </head>
 <body>
@@ -20,40 +18,39 @@
 
     <div id="notification" class="notification"></div>
 
-    <div class="form-container">
-        <form id="form1" method="POST" action="aeroport/aeroport_traitement.php">
-            <h3>Ajouter un aéroport</h3>
-            <label for="city">Ville :</label>
-            <input type="text" name="city" id="city" required>
-            <label for="maxLenght">Taille maximum :</label>
-            <input type="number" name="maxLenght" id="maxLenght" required>
-            <label for="capacity">Capacité en avions :</label>
-            <input type="number" name="capacity" id="capacity" required>
-            <button type="submit">Ajouter</button>
-        </form>
-
-        <form id="form2" method="POST" action="">
-            <h3>Ou sélectionnez-en un</h3>
-            <label for="aeroport_id">Aéroport</label>
-            <select name="aeroport_id" id="aeroport_id" required>
-                <option value="" disabled selected>Choisissez un aéroport</option>
+    <div class="table-container">
+        <a class="add-airport-btn" href="add_airport.php">Ajouter un Aéroport</a>
+        <table>
+            <thead>
+                <th>Ville</th>
+                <th>Capacité Avion</th>
+                <th>Taille Max</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
                 <?php
-                if (!empty($aeroports)) {
-                    foreach ($aeroports as $aeroport) {
-                        echo '<option value="' . htmlspecialchars($aeroport['id']) . '">' . htmlspecialchars($aeroport['city']) . '</option>';
+                    if (!empty($aeroports)) {
+                        foreach ($aeroports as $aeroport) {
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($aeroport['city']) . '</td>';
+                            echo '<td>' . htmlspecialchars($aeroport['capacity']) . '</td>';
+                            echo '<td>' . htmlspecialchars($aeroport['maxLenght']) . '</td>';
+                            echo '<td>
+                                <button><i class=\'bx bx-search-alt\'></i></button>
+                                <button><i class=\'bx bx-edit-alt\'></i></button>
+                                <button><i class=\'bx bx-trash\'></i></button>
+                            </td>';
+                            echo '</tr>';
+                        }
+                    } else {
+                        echo '<tr><td colspan="4">Aucun aéroport disponible</td></tr>';
                     }
-                } else {
-                    echo '<option disabled>Aucun aéroport disponible</option>';
-                }
-                ?>
-            </select>
-            <button type="button" onclick="redirectAirportManagement()">Gérer</button>
-        </form>
+            ?>
+            </tbody>
+        </table>
     </div>
 
 
-    <!-- Flatpickr JS -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
 
     document.getElementById('form1').addEventListener('submit', function(e) {
@@ -93,7 +90,6 @@
             const selectedAirport = document.getElementById('aeroport_id');            
             
             const selectedAirportId = selectedAirport.value;
-            console.log(selectedAirportId)
     
             if (!selectedAirportId) {
                 showNotification('Erreur : Veuillez sélectionner un aéroport', 'error')
@@ -109,12 +105,11 @@
                 })
                 .then(data => {
                     if (data) {
-                        window.location.href = `airport_management/manage.php`;
+                        window.location.href = `airport_manage.php?aeroport_id=` + selectedAirportId;
                     }
                 })
                 .catch(error => {
                     showNotification("Erreur : L'aéroport sélectionné n'existe pas");
-                    console.error('Erreur:', error);
                 });
         }
     </script>
