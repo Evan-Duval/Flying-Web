@@ -17,8 +17,6 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    padding-left: 110px; /* Pour éviter des collisions avec la sidebar (90px + pour un espace) */ 
-    padding-right: 20px;
 }
 
 /* Style page accès refusé */
@@ -34,6 +32,9 @@ body {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(7.6px);
     -webkit-backdrop-filter: blur(7.6px);
+
+    padding-left: 110px; /* Pour éviter des collisions avec la sidebar (90px + pour un espace) */ 
+    padding-right: 20px;
 }
 
 .logo {
@@ -72,7 +73,7 @@ body {
     margin-left: 110px; /* 90px for the navbar + 20px spacing */
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
     gap: 20px;
 }
 

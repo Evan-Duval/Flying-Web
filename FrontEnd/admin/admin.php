@@ -15,12 +15,7 @@
         include '../components/navbar.php';
         include '../components/api/adminverif.php';
 
-        $ch = curl_init('http://127.0.0.1:8000/api/aeroport/get-all');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        
-        $aeroports = json_decode($response, true);
+        include '../components/api/getall_aeroports.php';
     ?>
 
     <div id="notification" class="notification"></div>
@@ -28,22 +23,18 @@
     <div class="form-container">
         <form id="form1" method="POST" action="aeroport/aeroport_traitement.php">
             <h3>Ajouter un aéroport</h3>
-            <label for="city">City :</label>
+            <label for="city">Ville :</label>
             <input type="text" name="city" id="city" required>
-            <label for="maxLenght">Max Length :</label>
+            <label for="maxLenght">Taille maximum :</label>
             <input type="number" name="maxLenght" id="maxLenght" required>
-            <label for="capacity">Capacity :</label>
+            <label for="capacity">Capacité en avions :</label>
             <input type="number" name="capacity" id="capacity" required>
-            <button type="button" onclick="submitForm('form1')">Ajouter</button>
+            <button type="submit">Ajouter</button>
         </form>
 
-        <form id="form2" method="POST" action="piste/piste_traitement.php">
-            <h3>Ajouter une piste</h3>
-            <label for="pisteNumber">Nombre de piste(s) :</label>
-            <input type="number" name="pisteNumber" id="pisteNumber" required>
-            <label for="pisteLenght">Longueur des pistes :</label>
-            <input type="number" name="pisteLenght" id="pisteLenght" required>
-            <label for="aeroport_id">Associer à un aéroport :</label>
+        <form id="form2" method="POST" action="">
+            <h3>Ou sélectionnez-en un</h3>
+            <label for="aeroport_id">Aéroport</label>
             <select name="aeroport_id" id="aeroport_id" required>
                 <option value="" disabled selected>Choisissez un aéroport</option>
                 <?php
@@ -56,33 +47,7 @@
                 }
                 ?>
             </select>
-            <button type="button" onclick="submitForm('form2')">Ajouter</button>
-        </form>
-
-        <form id="form3" method="POST" action="plane/plane_traitement.php">
-            <h3>Ajouter un avion</h3>
-            <label for="model">Nom du modèle :</label>
-            <input type="text" name="model" id="model" required>
-            <label for="identification">Identification :</label>
-            <input type="text" name="identification" id="identification" required>
-            <label for="nbPlace">Nombre de place :</label>
-            <input type="number" name="nbPlace" id="nbPlace" required>
-            <label for="dimension">Dimension :</label>
-            <input type="text" name="dimension" id="dimension" required>
-            <label for="aeroport_id">Associer à un aéroport :</label>
-            <select name="aeroport_id" id="aeroport_id" required>
-                <option value="" disabled selected>Choisissez un aéroport</option>
-                <?php
-                if (!empty($aeroports)) {
-                    foreach ($aeroports as $aeroport) {
-                        echo '<option value="' . htmlspecialchars($aeroport['id']) . '">' . htmlspecialchars($aeroport['city']) . '</option>';
-                    }
-                } else {
-                    echo '<option disabled>Aucun aéroport disponible</option>';
-                }
-                ?>
-            </select>
-            <button type="button" onclick="submitForm('form3')">Ajouter</button>
+            <button type="button" onclick="redirectAirportManagement()">Gérer</button>
         </form>
     </div>
 
@@ -90,26 +55,28 @@
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        async function submitForm(formId) {
-            const form = document.getElementById(formId);
-            const formData = new FormData(form);
-            const action = form.getAttribute('action');
 
-            try {
-                const response = await fetch(action, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    showNotification('Succès : Données envoyées avec succès.', 'success');
-                } else {
-                    showNotification("Erreur : Échec de l`'envoi des données.", 'error');
-                }
-            } catch (error) {
-                showNotification('Erreur : Une erreur est survenue.', 'error');
+    document.getElementById('form1').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(this);
+        
+        fetch('aeroport/aeroport_traitement.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            showNotification(data.message, data.type);
+            
+            if (data.type === 'success') {
+                document.getElementById('form1').reset();
             }
-        }
+        })
+        .catch(error => {
+            showNotification('Une erreur est survenue lors de la communication avec le serveur', 'error');
+        });
+    });
 
         function showNotification(message, type) {
             const notification = document.getElementById('notification');
@@ -120,6 +87,35 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
+        }
+
+        function redirectAirportManagement() {
+            const selectedAirport = document.getElementById('aeroport_id');            
+            
+            const selectedAirportId = selectedAirport.value;
+            console.log(selectedAirportId)
+    
+            if (!selectedAirportId) {
+                showNotification('Erreur : Veuillez sélectionner un aéroport', 'error')
+                return;
+            }
+
+            fetch(`http://127.0.0.1:8000/api/aeroport/get-by-id/${selectedAirportId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        showNotification('Aéroport non trouvé');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        window.location.href = `airport_management/manage.php`;
+                    }
+                })
+                .catch(error => {
+                    showNotification("Erreur : L'aéroport sélectionné n'existe pas");
+                    console.error('Erreur:', error);
+                });
         }
     </script>
 </body>
