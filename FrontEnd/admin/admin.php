@@ -38,7 +38,9 @@
                             echo '<td>
                                 <button><i class=\'bx bx-search-alt\'></i></button>
                                 <button><i class=\'bx bx-edit-alt\'></i></button>
-                                <button><i class=\'bx bx-trash\'></i></button>
+                                <button onclick="showDeleteModal(' . $aeroport['id'] . ')" class="delete-btn">
+                                    <i class="bx bx-trash"></i>
+                                </button>
                             </td>';
                             echo '</tr>';
                         }
