@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Aeroport;
 use App\Models\Piste;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -20,6 +21,16 @@ class PisteController extends Controller
         } else {
             return response()->json($piste, 200);
         }      
+    }
+
+    public function getByAirport(int $id): JsonResponse {
+        $airport = Aeroport::find($id);
+        if (!$airport) {
+            return response()->json(['message' => 'Aucun aeroport trouvé pour cet id !'], 404);
+        } else {
+            $pistes = Piste::where('airport_id', $id)->get();          
+            return response()->json($pistes, 200);
+        }
     }
 
     public function create(Request $request): JsonResponse { 
