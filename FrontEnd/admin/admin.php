@@ -18,6 +18,16 @@
 
     <div id="notification" class="notification"></div>
 
+    <div id="deleteModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p>Êtes-vous sûr de vouloir supprimer cela ?</p>
+            <div class="modal-buttons">
+                <button onclick="hideDeleteModal()" class="btn-cancel">Annuler</button>
+                <button onclick="confirmDelete()" class="btn-confirm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
     <div class="table-container">
         <a class="add-airport-btn" href="add_airport.php">Ajouter un Aéroport</a>
         <table>
@@ -54,29 +64,7 @@
 
 
     <script>
-
-    document.getElementById('form1').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData(this);
-        
-        fetch('aeroport/aeroport_traitement.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            showNotification(data.message, data.type);
-            
-            if (data.type === 'success') {
-                document.getElementById('form1').reset();
-            }
-        })
-        .catch(error => {
-            showNotification('Une erreur est survenue lors de la communication avec le serveur', 'error');
-        });
-    });
-
+        // Pour les notifications
         function showNotification(message, type) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -88,6 +76,9 @@
             }, 3000);
         }
 
+
+
+        // Modifier les informations d'un aéroport 
         function redirectAirportManagement() {
             const selectedAirport = document.getElementById('aeroport_id');            
             
@@ -113,6 +104,34 @@
                 .catch(error => {
                     showNotification("Erreur : L'aéroport sélectionné n'existe pas");
                 });
+        }
+
+
+
+        // Supprimer un aéroport
+        function showDeleteModal(id) {
+            document.getElementById('deleteModal').style.display = 'flex';
+            document.getElementById('deleteModal').dataset.deleteId = id;
+        }
+
+        function hideDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function confirmDelete() {
+            const id = document.getElementById('deleteModal').dataset.deleteId;
+            fetch(`http://127.0.0.1:8000/api/aeroport/delete/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    showNotification('Erreur lors de la suppression', 'error');
+                } else {
+                    showNotification('Aéroport supprimé avec succès', 'success');
+                    hideDeleteModal();
+                    window.location.reload();
+                }
+            });
         }
     </script>
 </body>
