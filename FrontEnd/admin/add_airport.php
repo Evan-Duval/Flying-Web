@@ -20,7 +20,7 @@
 
     <div class="form-container">
         <a class="go-back-btn" href="admin.php">Retour</a>
-        <form id="form1" method="POST" action="aeroport/aeroport_traitement.php">
+        <form id="form1" method="POST">
             <h3>Ajouter un aéroport</h3>
             <label for="city">Ville :</label>
             <input type="text" name="city" id="city" required>
@@ -45,7 +45,7 @@
         
         const formData = new FormData(this);
         
-        fetch('aeroport/aeroport_traitement.php', {
+        fetch('aeroport/aeroport_post.php', {
             method: 'POST',
             body: formData
         })

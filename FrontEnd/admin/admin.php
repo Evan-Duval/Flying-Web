@@ -37,7 +37,7 @@
                             echo '<td>' . htmlspecialchars($aeroport['maxLenght']) . '</td>';
                             echo '<td>
                                 <button><a href="airport_infos.php?aeroport='. $aeroport['id'] . '"> <i class=\'bx bx-search-alt\'></i></a></button>
-                                <button><i class=\'bx bx-edit-alt\'></i></button>
+                                <button><a href="airport_manage.php?aeroport='. $aeroport['id'] . '"><i class=\'bx bx-edit-alt\'></i></a></button>
                                 <button onclick="showDeleteModal(' . $aeroport['id'] . ')" class="delete-btn">
                                     <i class="bx bx-trash"></i>
                                 </button>
