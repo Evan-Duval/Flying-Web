@@ -24,8 +24,13 @@
             <h3>Ajouter un aéroport</h3>
             <label for="city">Ville :</label>
             <input type="text" name="city" id="city" required>
-            <label for="maxLenght">Taille maximum :</label>
-            <input type="number" name="maxLenght" id="maxLenght" required>
+            <label for="maxLenght">Taille :</label>
+            <select name="maxLenght" id="maxLenght" required>
+                <option value="" disabled selected>Choisissez une taille</option>
+                <option value="Petit">Petit Aéroport</option>
+                <option value="Moyen">Moyen Aéroport</option>
+                <option value="Grand">Grand Aéroport</option>
+            </select>
             <label for="capacity">Capacité en avions :</label>
             <input type="number" name="capacity" id="capacity" required>
             <button type="submit">Ajouter</button>

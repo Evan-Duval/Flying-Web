@@ -24,7 +24,7 @@
             <thead>
                 <th>Ville</th>
                 <th>Capacité Avion</th>
-                <th>Taille Max</th>
+                <th>Taille</th>
                 <th>Actions</th>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                             echo '<td>' . htmlspecialchars($aeroport['capacity']) . '</td>';
                             echo '<td>' . htmlspecialchars($aeroport['maxLenght']) . '</td>';
                             echo '<td>
-                                <button><i class=\'bx bx-search-alt\'></i></button>
+                                <button><a href="airport_infos.php?aeroport='. $aeroport['id'] . '"> <i class=\'bx bx-search-alt\'></i></a></button>
                                 <button><i class=\'bx bx-edit-alt\'></i></button>
                                 <button onclick="showDeleteModal(' . $aeroport['id'] . ')" class="delete-btn">
                                     <i class="bx bx-trash"></i>

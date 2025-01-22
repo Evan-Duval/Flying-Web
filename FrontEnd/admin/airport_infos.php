@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/add_airport.css">
     <title>Airport Management</title>
 </head>
@@ -13,7 +13,7 @@
         include '../components/navbar.php';
         include '../components/api/adminverif.php';
 
-        $aeroport_id = isset($_GET['aeroport_id']) ? $_GET['aeroport_id'] : null;
+        $aeroport_id = isset($_GET['aeroport']) ? $_GET['aeroport'] : null;
 
         if ($aeroport_id) {
             $ch = curl_init("http://127.0.0.1:8000/api/aeroport/get-by-id/" . $aeroport_id);
@@ -42,16 +42,12 @@
                                 <td><?php echo htmlspecialchars($aeroport['city']);?></td>
                             </tr>
                             <tr>
-                                <th>Longueur maximale</th>
+                                <th>Taille</th>
                                 <td><?php echo htmlspecialchars($aeroport['maxLenght']);?></td>
-                                <th>Actions :</th>
-                                <td><button><i class='bx bx-edit-alt'></i></button></td>
                             </tr>
                             <tr>
                                 <th>Capacité</th>
                                 <td><?php echo htmlspecialchars($aeroport['capacity']);?></td>
-                                <th>Actions :</th>
-                                <td><button><i class='bx bx-edit-alt'></i></button></td>
                             </tr>
                         </table>
                     </div>
