@@ -28,66 +28,65 @@
 
             if ($httpCode == 200) {
                 $aeroport = json_decode($response, true);
-                ?>
-                <div class="div-container">
-                    <div class="content">
-                        <h3>Informations de l'aéroport sélectionné :</h3>
-                        <table class="maininfos">
-                            <tr>
-                                <th>ID</th>
-                                <td><?php echo htmlspecialchars($aeroport['id']);?></td>
-                            </tr>
-                            <tr>
-                                <th>Ville</th>
-                                <td><?php echo htmlspecialchars($aeroport['city']);?></td>
-                            </tr>
-                            <tr>
-                                <th>Taille</th>
-                                <td><?php echo htmlspecialchars($aeroport['maxLenght']);?></td>
-                            </tr>
-                            <tr>
-                                <th>Capacité</th>
-                                <td><?php echo htmlspecialchars($aeroport['capacity']);?></td>
-                            </tr>
-
-                        </table>
-                        <table>
-                            <h3>Informations des pistes :</h3>
-                            <?php
-                                $ch = curl_init('http://127.0.0.1:8000/api/piste/get-by-airport/' . $aeroport['id']);
-                                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                $response = curl_exec($ch);
-                                curl_close($ch);
-
-                                $pistes = json_decode($response, true);
-                                if (!empty($pistes)) {
-                                    echo '<tr>';
-                                    echo '<th>ID</th>';
-                                    echo '<th>Longueur</th>';
-                                    echo '</tr>';
-                                    foreach ($pistes as $piste) {
-                                        echo '<tr>';
-                                        echo '<td>'. htmlspecialchars($piste['id']). '</td>';
-                                        echo '<td>'. htmlspecialchars($piste['pisteLenght']). '</td>';
-                                        echo '</tr>';
-                                    }
-                                    echo '</table>';
-                                } else {
-                                    echo '<tr><td colspan="2">Aucune piste associée à cet aéroport</td></tr>';
-                                }
-                            ?>
-                        </table>
-
-                        <table class="planesInfos">
-
-                        </table>
-                            
-                    </div>
-                </div>
-                <?php
             }
         }
     ?>
+
+    <div class="div-container">
+        <div class="content">
+            <h3>Informations de l'aéroport sélectionné :</h3>
+            <table class="maininfos">
+                <tr>
+                    <th>ID</th>
+                    <td><?php echo htmlspecialchars($aeroport['id']);?></td>
+                </tr>
+                <tr>
+                    <th>Ville</th>
+                    <td><?php echo htmlspecialchars($aeroport['city']);?></td>
+                </tr>
+                <tr>
+                    <th>Taille</th>
+                    <td><?php echo htmlspecialchars($aeroport['maxLenght']);?></td>
+                </tr>
+                <tr>
+                    <th>Capacité</th>
+                    <td><?php echo htmlspecialchars($aeroport['capacity']);?></td>
+                </tr>
+
+            </table>
+            <table>
+                <h3>Informations des pistes :</h3>
+                <?php
+                    $ch = curl_init('http://127.0.0.1:8000/api/piste/get-by-airport/' . $aeroport['id']);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $response = curl_exec($ch);
+                    curl_close($ch);
+
+                    $pistes = json_decode($response, true);
+                    if (!empty($pistes)) {
+                        echo '<tr>';
+                        echo '<th>ID</th>';
+                        echo '<th>Longueur</th>';
+                        echo '</tr>';
+                        foreach ($pistes as $piste) {
+                            echo '<tr>';
+                            echo '<td>'. htmlspecialchars($piste['id']). '</td>';
+                            echo '<td>'. htmlspecialchars($piste['pisteLenght']). '</td>';
+                            echo '</tr>';
+                        }
+                        echo '</table>';
+                    } else {
+                        echo '<tr><td colspan="2">Aucune piste associée à cet aéroport</td></tr>';
+                    }
+                ?>
+            </table>
+
+            <table class="planesInfos">
+
+            </table>
+                
+        </div>
+    </div>
 
 
     <script>
