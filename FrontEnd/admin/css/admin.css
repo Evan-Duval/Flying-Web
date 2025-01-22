@@ -140,7 +140,7 @@ td {
     border-bottom: 1px solid #eee;
 }
 
-td button {
+td button, td button a {
     background: none;
     border: none;
     padding: 5px;
