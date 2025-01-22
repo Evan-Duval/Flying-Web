@@ -36,7 +36,7 @@
     <div class="form-container">
         <a class="go-back-btn" href="admin.php">Retour</a>
         <form id="form1" method="PUT">
-            <h3>Aéroport n°<?php echo htmlspecialchars($aeroport['id']);?> : Modifier</h3>
+            <h3>Modifier l'Aéroport n°<?php echo htmlspecialchars($aeroport['id']);?></h3>
             <label for="city">Ville :</label>
             <input type="text" name="city" id="city" required value="<?php echo htmlspecialchars($aeroport['city']);?>">
             <label for="maxLenght">Taille :</label>
