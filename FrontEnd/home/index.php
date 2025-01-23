@@ -34,6 +34,8 @@
     $arriveFilter = $_GET['arrive'] ?? '';
     ?>
 
+    <div id="notification" class="notification"></div>
+
     <div class="main-container">
 
     <div class="filters-section">
@@ -74,7 +76,22 @@
     </div>
 
         <?php
+        include '../components/api/myreservations.php';
+
         foreach ($flies as $flight) {
+            $reserved = false;
+
+            // Vérification des réservations dans la session
+            if (isset($_SESSION['user']['reservations']) && !empty($_SESSION['user']['reservations'])) {
+                foreach ($_SESSION['user']['reservations'] as $reservation) {
+                    if ($reservation['flie_id'] == $flight['id']) {
+                        $reserved = true;
+                        $reservationId = $reservation['id'];
+                        break;
+                    }
+                }
+            }
+
             if ($dateFilter && date('Y-m-d', strtotime($flight['takeoffTime'])) != $dateFilter) {
                 continue;
             }
@@ -106,7 +123,11 @@
                         <p>Date de départ: <b><?php echo date('d/m/Y H:i', strtotime($flight['takeoffTime'])); ?></b></p>
                         <p>Date d'arrivée: <b><?php echo date('d/m/Y H:i', strtotime($flight['landingTime'])); ?></b></p>
                         <p>Durée: <b><?php echo $flight['flightDuration']; ?> minutes</b></p>
-                        <button onclick="reserverVol(<?php echo $flight['id']; ?>)" class="reserve-button">Réserver</button>
+                        <button 
+                            onclick="<?php echo $reserved ? "annulerVol({$reservationId})" : "reserverVol({$flight['id']})"; ?>" 
+                            class="reserve-button">
+                            <?php echo $reserved ? "Annuler ma réservation" : "Réserver"; ?>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -116,12 +137,39 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+        // Pour les notifications
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + (type === 'success' ? '' : 'error');
+            notification.style.display = 'block';
+
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+
+        
         flatpickr("#date", {
             dateFormat: "Y-m-d",
         });
 
         function reserverVol(flightId) {
             window.location.href = 'reserver.php?flightId=' + flightId;
+        }
+
+        function annulerVol(reservationId) {
+            fetch(`http://127.0.0.1:8000/api/reservation/delete/${reservationId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    showNotification('Erreur lors de la suppression', 'error');
+                } else {
+                    window.location.reload();
+                }
+                });
         }
     </script>
 </body>
