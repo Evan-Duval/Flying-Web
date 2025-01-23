@@ -70,7 +70,7 @@
                         <th>Type</th>
                         <th>Numéro de siège</th>
                         <th>ID de l'utilisateur</th>
-                        <th>ID du vol</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,7 +87,13 @@
                                 echo "<td>" . htmlspecialchars($reservation['type']) . "</td>";
                                 echo "<td>" . htmlspecialchars($reservation['placeNumber']) . "</td>";
                                 echo "<td>" . htmlspecialchars($reservation['user_id']) . "</td>";
-                                echo "<td>" . htmlspecialchars($reservation['flie_id']) . "</td>";
+                                echo "<td>
+                                    <button class='btn-view-ticket'>
+                                        <a href='../home/genererPdf.php?flightId=" . htmlspecialchars($reservation['flie_id']) . "' target='_blank'>
+                                            <i class='bx bx-link-external'></i>
+                                        </a>
+                                    </button>
+                                </td>";
                                 echo "</tr>";
                             } else {
                                 echo "<tr><td colspan='5'>Réservation invalide</td></tr>";
