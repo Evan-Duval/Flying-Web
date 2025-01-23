@@ -1,9 +1,29 @@
 <?php
+include '../../components/api/getall_aeroports.php';
 
 // Récupération et validation des données
 $city = $_POST['city'] ?? null;
 $maxLenght = $_POST['maxLenght'] ?? null;
 $capacity = $_POST['capacity'] ?? null;
+
+if (!empty($aeroports)) {
+    foreach ($aeroports as $aeroport) {
+        if ($aeroport['city'] == $city) {
+            echo json_encode([
+                'type' => 'error',
+                'message' => 'Erreur : Cette ville existe déjà dans notre base de données.'
+            ]);
+            exit;
+        };
+    }
+}
+if (!ctype_alpha($city)) {
+    echo json_encode([
+        'type' => 'error',
+        'message' => 'Erreur : Le champ ville doit être une chaîne de caractères.'
+    ]);
+    exit;
+}
 
 // Préparation des données pour l'API
 $data = array(
@@ -30,15 +50,14 @@ curl_close($ch);
 // Gestion de la réponse
 $result = json_decode($response, true);
 if ($httpCode == 201 || $httpCode == 200) {
-    echo "<h3 style=\"color:green;\">Aéroport inséré. Vous allez être redirigé vers la page Admin...</h3>";
-    header("refresh:2;url=..\admin.php");
-    exit;
+    echo json_encode([
+        'type' => 'success',
+        'message' => 'Succès : Aéroport ajouté avec succès !'
+    ]);
 } else {
     $errorMessage = isset($result['message']) ? $result['message'] : "Une erreur est survenue lors de l'insertion de l'aéroport";
-    echo "<h3>Erreur : " . htmlspecialchars($errorMessage) . "</h3>";
-    echo "<div class=\"wrapper\">
-            <div class=\"register-link\"> 
-                <p>Retourner à la page admin ? <a href=\"aeroport.php\">Réessayer</a></p> 
-            </div>
-        </div>";
+    echo json_encode([
+        'type' => 'error',
+        'message' => $errorMessage
+    ]);
 }

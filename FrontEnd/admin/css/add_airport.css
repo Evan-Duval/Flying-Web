@@ -6,14 +6,15 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Poppins", sans-serif;
+    text-decoration: none;
 }
 
 body {
-    display: block;
+    display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url('../img/background-profil.jpeg') no-repeat;
+    background: url('../../img/background-profil.jpeg') no-repeat;
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -32,6 +33,9 @@ body {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(7.6px);
     -webkit-backdrop-filter: blur(7.6px);
+
+    margin-left: 110px; /* Pour éviter des collisions avec la sidebar (90px + pour un espace) */ 
+    margin-right: 20px;
 }
 
 .logo {
@@ -67,11 +71,29 @@ body {
 }
 
 .form-container {
-    margin-left: 110px; /* 90px for the navbar + 20px spacing */
-    padding: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 20px;
+    position: relative;
+    width: 750px;
+    padding-left: 110px;
+    padding-right: 20px;
+}
+
+.go-back-btn {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    background-color: #db3434;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.go-back-btn:hover {
+    background-color: #b92929;
+    transform: translateY(-2px);
 }
 
 form {

@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <!-- Flatpickr CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="css/admin.css">
     <title>Admin Panel</title>
 </head>
 <body>
@@ -15,102 +13,58 @@
         include '../components/navbar.php';
         include '../components/api/adminverif.php';
 
-        $ch = curl_init('http://127.0.0.1:8000/api/aeroport/get-all');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        
-        $aeroports = json_decode($response, true);
+        include '../components/api/getall_aeroports.php';
     ?>
 
     <div id="notification" class="notification"></div>
 
-    <div class="form-container">
-        <form id="form1" method="POST" action="aeroport/aeroport_traitement.php">
-            <h3>Ajouter un aéroport</h3>
-            <label for="city">City :</label>
-            <input type="text" name="city" id="city" required>
-            <label for="maxLenght">Max Length :</label>
-            <input type="number" name="maxLenght" id="maxLenght" required>
-            <label for="capacity">Capacity :</label>
-            <input type="number" name="capacity" id="capacity" required>
-            <button type="button" onclick="submitForm('form1')">Ajouter</button>
-        </form>
+    <div id="deleteModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p>Êtes-vous sûr de vouloir supprimer cela ?</p>
+            <div class="modal-buttons">
+                <button onclick="hideDeleteModal()" class="btn-cancel">Annuler</button>
+                <button onclick="confirmDelete()" class="btn-confirm">Confirmer</button>
+            </div>
+        </div>
+    </div>
 
-        <form id="form2" method="POST" action="piste/piste_traitement.php">
-            <h3>Ajouter une piste</h3>
-            <label for="pisteNumber">Nombre de piste(s) :</label>
-            <input type="number" name="pisteNumber" id="pisteNumber" required>
-            <label for="pisteLenght">Longueur des pistes :</label>
-            <input type="number" name="pisteLenght" id="pisteLenght" required>
-            <label for="aeroport_id">Associer à un aéroport :</label>
-            <select name="aeroport_id" id="aeroport_id" required>
-                <option value="" disabled selected>Choisissez un aéroport</option>
+    <div class="table-container">
+        <a class="add-airport-btn" href="add_airport.php">Ajouter un Aéroport</a>
+        <table>
+            <thead>
+                <th>Ville</th>
+                <th>Capacité Avion</th>
+                <th>Taille</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
                 <?php
-                if (!empty($aeroports)) {
-                    foreach ($aeroports as $aeroport) {
-                        echo '<option value="' . htmlspecialchars($aeroport['id']) . '">' . htmlspecialchars($aeroport['city']) . '</option>';
+                    if (!empty($aeroports)) {
+                        foreach ($aeroports as $aeroport) {
+                            echo '<tr>';
+                            echo '<td>' . htmlspecialchars($aeroport['city']) . '</td>';
+                            echo '<td>' . htmlspecialchars($aeroport['capacity']) . '</td>';
+                            echo '<td>' . htmlspecialchars($aeroport['maxLenght']) . '</td>';
+                            echo '<td>
+                                <button><a href="airport_infos.php?aeroport='. $aeroport['id'] . '"> <i class=\'bx bx-search-alt\'></i></a></button>
+                                <button><a href="airport_manage.php?aeroport='. $aeroport['id'] . '"><i class=\'bx bx-edit-alt\'></i></a></button>
+                                <button onclick="showDeleteModal(' . $aeroport['id'] . ')" class="delete-btn">
+                                    <i class="bx bx-trash"></i>
+                                </button>
+                            </td>';
+                            echo '</tr>';
+                        }
+                    } else {
+                        echo '<tr><td colspan="4">Aucun aéroport disponible</td></tr>';
                     }
-                } else {
-                    echo '<option disabled>Aucun aéroport disponible</option>';
-                }
-                ?>
-            </select>
-            <button type="button" onclick="submitForm('form2')">Ajouter</button>
-        </form>
-
-        <form id="form3" method="POST" action="plane/plane_traitement.php">
-            <h3>Ajouter un avion</h3>
-            <label for="model">Nom du modèle :</label>
-            <input type="text" name="model" id="model" required>
-            <label for="identification">Identification :</label>
-            <input type="text" name="identification" id="identification" required>
-            <label for="nbPlace">Nombre de place :</label>
-            <input type="number" name="nbPlace" id="nbPlace" required>
-            <label for="dimension">Dimension :</label>
-            <input type="text" name="dimension" id="dimension" required>
-            <label for="aeroport_id">Associer à un aéroport :</label>
-            <select name="aeroport_id" id="aeroport_id" required>
-                <option value="" disabled selected>Choisissez un aéroport</option>
-                <?php
-                if (!empty($aeroports)) {
-                    foreach ($aeroports as $aeroport) {
-                        echo '<option value="' . htmlspecialchars($aeroport['id']) . '">' . htmlspecialchars($aeroport['city']) . '</option>';
-                    }
-                } else {
-                    echo '<option disabled>Aucun aéroport disponible</option>';
-                }
-                ?>
-            </select>
-            <button type="button" onclick="submitForm('form3')">Ajouter</button>
-        </form>
+            ?>
+            </tbody>
+        </table>
     </div>
 
 
-    <!-- Flatpickr JS -->
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        async function submitForm(formId) {
-            const form = document.getElementById(formId);
-            const formData = new FormData(form);
-            const action = form.getAttribute('action');
-
-            try {
-                const response = await fetch(action, {
-                    method: 'POST',
-                    body: formData
-                });
-
-                if (response.ok) {
-                    showNotification('Succès : Données envoyées avec succès.', 'success');
-                } else {
-                    showNotification("Erreur : Échec de l`'envoi des données.", 'error');
-                }
-            } catch (error) {
-                showNotification('Erreur : Une erreur est survenue.', 'error');
-            }
-        }
-
+        // Pour les notifications
         function showNotification(message, type) {
             const notification = document.getElementById('notification');
             notification.textContent = message;
@@ -120,6 +74,64 @@
             setTimeout(() => {
                 notification.style.display = 'none';
             }, 3000);
+        }
+
+
+
+        // Modifier les informations d'un aéroport 
+        function redirectAirportManagement() {
+            const selectedAirport = document.getElementById('aeroport_id');            
+            
+            const selectedAirportId = selectedAirport.value;
+    
+            if (!selectedAirportId) {
+                showNotification('Erreur : Veuillez sélectionner un aéroport', 'error')
+                return;
+            }
+
+            fetch(`http://127.0.0.1:8000/api/aeroport/get-by-id/${selectedAirportId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        showNotification('Aéroport non trouvé');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        window.location.href = `airport_manage.php?aeroport_id=` + selectedAirportId;
+                    }
+                })
+                .catch(error => {
+                    showNotification("Erreur : L'aéroport sélectionné n'existe pas");
+                });
+        }
+
+
+
+        // Supprimer un aéroport
+        function showDeleteModal(id) {
+            document.getElementById('deleteModal').style.display = 'flex';
+            document.getElementById('deleteModal').dataset.deleteId = id;
+        }
+
+        function hideDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function confirmDelete() {
+            const id = document.getElementById('deleteModal').dataset.deleteId;
+            fetch(`http://127.0.0.1:8000/api/aeroport/delete/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    showNotification('Erreur lors de la suppression', 'error');
+                } else {
+                    showNotification('Aéroport supprimé avec succès', 'success');
+                    hideDeleteModal();
+                    window.location.reload();
+                }
+            });
         }
     </script>
 </body>

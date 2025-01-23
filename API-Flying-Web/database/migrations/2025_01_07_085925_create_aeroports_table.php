@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('aeroports', function (Blueprint $table) {
             $table->id();
             $table->string('city');
-            $table->integer('maxLenght');
+            $table->string('maxLenght');
             $table->integer('capacity');
             $table->timestamps();
         });
