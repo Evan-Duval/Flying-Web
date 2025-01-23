@@ -121,26 +121,52 @@
 
 
     document.getElementById('change-password-form').addEventListener('submit', function(event) {
-    event.preventDefault(); 
+        event.preventDefault(); 
 
-    const form = event.target;
+        const form = event.target;
 
-    const formData = new FormData(form);
+        const formData = new FormData(form);
 
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-            alert('Succés : ' + (data.message || 'Mot de passe bien modifié.'));
-            form.reset();
-    })
-    .catch(error => {
-        alert('Erreur : Une erreur réseau s\'est produite.');
-        console.error(error);
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(data => {
+                alert('Succés : ' + (data.message || 'Mot de passe bien modifié.'));
+                form.reset();
+        })
+        .catch(error => {
+            alert('Erreur : Une erreur réseau s\'est produite.');
+            console.error(error);
+        });
     });
-    });
+
+    // Supprimer un aéroport
+    function showDeleteModal(id) {
+        document.getElementById('deleteModal').style.display = 'flex';
+        document.getElementById('deleteModal').dataset.deleteId = id;
+    }
+
+    function hideDeleteModal() {
+        document.getElementById('deleteModal').style.display = 'none';
+    }
+
+    function confirmDelete() {
+        const id = document.getElementById('deleteModal').dataset.deleteId;
+        fetch(`http://127.0.0.1:8000/api/aeroport/delete/${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (!response.ok) {
+                showNotification('Erreur lors de la suppression', 'error');
+            } else {
+                showNotification('Aéroport supprimé avec succès', 'success');
+                hideDeleteModal();
+                window.location.reload();
+            }
+        });
+    }
 
     </script>
 </body>
