@@ -13,6 +13,18 @@
         include '../components/navbar.php';
     ?>
 
+    <div id="notification" class="notification"></div>
+
+    <div id="deleteModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
+            <div class="modal-buttons">
+                <button onclick="hideDeleteModal()" class="btn-cancel">Annuler</button>
+                <button onclick="confirmDelete()" class="btn-confirm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+
     <div class="identity">
         <?php   
             if (!isset ($_SESSION['user'])) {
@@ -20,10 +32,6 @@
     color: #000; text-decoration: none;\"href=\"../connexion/connexion.php\">Se connecter</a></p>");
             };
         ?>
-
-        <div id="notification" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1000;">
-            Succès : Données envoyées avec succès.
-        </div>
 
         <div class="user-info">
             <h2 class="info"><?php echo htmlspecialchars($_SESSION['user']['first_name'])?></h2>
@@ -54,7 +62,9 @@
                 </div>
             <a href="#">Modifier mes informations</a>
             <a href="../connexion/logout.php">Se déconnecter</a>
-            <a href="#">Supprimer mon compte</a>
+            <button onclick="showDeleteModal('<?php echo htmlspecialchars($_SESSION['user']['id']); ?>')" class="delete-btn">
+                Supprimer mon compte
+            </button>
         </div>
 
     </div>
@@ -108,65 +118,76 @@
         </div>
     </div>
 
-
-    <script src="script.js"></script>
                     
     <script>
-    document.getElementById('show-password-form').addEventListener('click', function(event) {
-        event.preventDefault();
-        const form = document.getElementById('password-form');
-        form.style.display = form.style.display === 'none' ? 'block' : 'none';
-    });
+        // Pour les notifications
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + (type === 'success' ? '' : 'error');
+            notification.style.display = 'block';
+
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
 
 
-
-    document.getElementById('change-password-form').addEventListener('submit', function(event) {
-        event.preventDefault(); 
-
-        const form = event.target;
-
-        const formData = new FormData(form);
-
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-                alert('Succés : ' + (data.message || 'Mot de passe bien modifié.'));
-                form.reset();
-        })
-        .catch(error => {
-            alert('Erreur : Une erreur réseau s\'est produite.');
-            console.error(error);
+        document.getElementById('show-password-form').addEventListener('click', function(event) {
+            event.preventDefault();
+            const form = document.getElementById('password-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
         });
-    });
 
-    // Supprimer un aéroport
-    function showDeleteModal(id) {
-        document.getElementById('deleteModal').style.display = 'flex';
-        document.getElementById('deleteModal').dataset.deleteId = id;
-    }
 
-    function hideDeleteModal() {
-        document.getElementById('deleteModal').style.display = 'none';
-    }
 
-    function confirmDelete() {
-        const id = document.getElementById('deleteModal').dataset.deleteId;
-        fetch(`http://127.0.0.1:8000/api/aeroport/delete/${id}`, {
-            method: 'DELETE'
-        })
-        .then(response => {
-            if (!response.ok) {
-                showNotification('Erreur lors de la suppression', 'error');
-            } else {
-                showNotification('Aéroport supprimé avec succès', 'success');
-                hideDeleteModal();
-                window.location.reload();
-            }
+        document.getElementById('change-password-form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+            const form = event.target;
+
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                showNotification('Succés : ' + (data.message || 'Mot de passe bien modifié.', 'sucess'));
+                    form.reset();
+            })
+            .catch(error => {
+                showNotification('Erreur : Une erreur réseau s\'est produite.');
+                console.error(error);
+            });
         });
-    }
+
+        // Supprimer un joueur (Confirmation Popup)
+        function showDeleteModal(id) {
+            document.getElementById('deleteModal').style.display = 'flex';
+            document.getElementById('deleteModal').dataset.deleteId = id;
+        }
+
+        function hideDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
+
+        function confirmDelete() {
+            const id = document.getElementById('deleteModal').dataset.deleteId;
+            fetch(`http://127.0.0.1:8000/auth/delete-user/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    showNotification('Erreur lors de la suppression', 'error');
+                } else {
+                    showNotification('Utilisateur supprimé avec succès', 'success');
+                    hideDeleteModal();
+                    window.location.reload();
+                }
+            });
+        }
 
     </script>
 </body>
