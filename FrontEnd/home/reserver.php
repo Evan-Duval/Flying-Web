@@ -37,6 +37,4 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 $response = curl_exec($ch);
 curl_close($ch);
 
-// Générer le PDF immédiatement après la réservation
-header('Location: genererPdf.php?flightId=' . $flightId);
-exit;
+header('Location: index.php?success=1');
