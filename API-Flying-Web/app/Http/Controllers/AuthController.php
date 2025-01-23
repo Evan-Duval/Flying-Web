@@ -164,6 +164,35 @@ class AuthController extends Controller
     }
 
     /**
+     * This PHP function deletes a user by their ID and returns a JSON response indicating success or
+     * error.
+     * 
+     * @param int id The `deleteUser` function is a PHP function that takes an integer parameter ``,
+     * which represents the unique identifier of the user to be deleted from the database. The function
+     * attempts to delete the user with the specified ID using the `User::destroy()` method.
+     * 
+     * @return `deleteUser` is returning a JSON response. If the deletion of the user is
+     * successful, it returns a JSON response with a success message and status code 200. If an
+     * exception occurs during the deletion process, it returns a JSON response with an error message,
+     * the error message from the exception, and a status code of 500.
+     */
+    public function delete(int $id) {
+        try {
+            User::destroy($id);
+            return response()->json([
+               'message' => 'Utilisateur supprimé avec succès',
+               'status' =>'success'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+               'message' => 'Une erreur est survenue lors de la suppression de l\'utilisateur',
+                'error' => $e->getMessage(),
+               'status' => 'error'
+            ], 500);
+        }
+    }
+
+    /**
      * The function `resetpassword` resets a user's password, sends a notification email with the new
      * password, and handles exceptions.
      * 

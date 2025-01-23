@@ -16,7 +16,7 @@ if (!$aeroport_id) {
 }
 
 // Validation des données
-if (!$city || !ctype_alpha(str_replace(' ', '', $city))) {
+if (!$city || !preg_match('/^[a-zA-ZÀ-ÿ\s]+$/u',$city)) {
     echo json_encode([
         'type' => 'error',
         'message' => 'Erreur : Le champ ville doit être une chaîne de caractères valide.'
