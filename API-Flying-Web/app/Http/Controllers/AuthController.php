@@ -84,6 +84,14 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
+
+        // Vérification du champ deleted_at
+        if ($user->deleted_at !== null) {
+            return response()->json([
+                'message' => 'Your account has been desactivated.'
+            ], 403);
+        }
+
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->plainTextToken;
 
