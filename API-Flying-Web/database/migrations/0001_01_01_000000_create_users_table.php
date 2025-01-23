@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('birthday');
             $table->string('rank');
+            $table->timestamp('deleted_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

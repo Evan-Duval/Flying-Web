@@ -164,32 +164,31 @@ class AuthController extends Controller
     }
 
     /**
-     * This PHP function deletes a user by their ID and returns a JSON response indicating success or
-     * error.
+     * This PHP function deletes a user by setting the 'deleted_at' timestamp field to the current time
+     * for soft deletion.
      * 
-     * @param int id The `deleteUser` function is a PHP function that takes an integer parameter ``,
-     * which represents the unique identifier of the user to be deleted from the database. The function
-     * attempts to delete the user with the specified ID using the `User::destroy()` method.
+     * @param int id The `delete` function you provided is used to perform a soft delete on a user
+     * record in the database. The function takes an integer parameter `` which represents the
+     * unique identifier of the user to be deleted.
      * 
-     * @return `deleteUser` is returning a JSON response. If the deletion of the user is
-     * successful, it returns a JSON response with a success message and status code 200. If an
-     * exception occurs during the deletion process, it returns a JSON response with an error message,
-     * the error message from the exception, and a status code of 500.
+     * @return JsonResponse A JSON response is being returned. If the user with the specified ID is
+     * found, a success message indicating that the user has been soft deleted is returned with a
+     * status code of 200. If the user is not found, a message indicating that the user was not found
+     * is returned with a status code of 404.
      */
-    public function delete(int $id) {
-        try {
-            User::destroy($id);
-            return response()->json([
-               'message' => 'Utilisateur supprimé avec succès',
-               'status' =>'success'
-            ], 200);
-        } catch (\Exception $e) {
-            return response()->json([
-               'message' => 'Une erreur est survenue lors de la suppression de l\'utilisateur',
-                'error' => $e->getMessage(),
-               'status' => 'error'
-            ], 500);
+    public function delete(int $id): JsonResponse
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['message' => 'Utilisateur introuvable'], 404);
         }
+
+        $user
+            ->where('id', $id)
+            ->update(['deleted_at' => Now()]);
+
+        return response()->json(['message' => 'Utilisateur supprimé (soft delete)'], 200);
     }
 
     /**

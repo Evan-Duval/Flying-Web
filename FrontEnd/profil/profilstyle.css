@@ -104,7 +104,9 @@ h3 {
     -webkit-backdrop-filter: blur(8.9px);
     border: 1px solid rgba(255, 0, 0, 1);
 
+    display: inline-block;
     cursor: pointer;
+    color: #ffffff;
     transition: color 0.3s ease;
     padding: 8px 15px;
     margin-top: 10px;
@@ -242,7 +244,7 @@ form > button:hover {
     font-size: 1.2rem;
 }
 
-.delete-modal p {
+.delete-modal p, .modal-content p {
     color: #666;
     margin-bottom: 20px;
 }

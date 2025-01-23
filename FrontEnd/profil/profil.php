@@ -175,16 +175,15 @@
 
         function confirmDelete() {
             const id = document.getElementById('deleteModal').dataset.deleteId;
-            fetch(`http://127.0.0.1:8000/auth/delete-user/${id}`, {
-                method: 'DELETE'
+            fetch(`http://127.0.0.1:8000/api/auth/delete-user/${id}`, {
+                method: 'POST'
             })
             .then(response => {
                 if (!response.ok) {
                     showNotification('Erreur lors de la suppression', 'error');
                 } else {
                     showNotification('Utilisateur supprimé avec succès', 'success');
-                    hideDeleteModal();
-                    window.location.reload();
+                    window.location.href = "../connexion/logout.php";
                 }
             });
         }
