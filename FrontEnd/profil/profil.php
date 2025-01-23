@@ -15,12 +15,21 @@
 
     <div id="notification" class="notification"></div>
 
-    <div id="deleteModal" class="modal" style="display: none;">
+    <div id="deleteModal1" class="modal" style="display: none;">
         <div class="modal-content">
             <p>Êtes-vous sûr de vouloir supprimer votre compte ?</p>
             <div class="modal-buttons">
                 <button onclick="hideDeleteModal()" class="btn-cancel">Annuler</button>
-                <button onclick="confirmDelete()" class="btn-confirm">Confirmer</button>
+                <button onclick="confirmDelete(1)" class="btn-confirm">Confirmer</button>
+            </div>
+        </div>
+    </div>
+    <div id="deleteModal2" class="modal" style="display: none;">
+        <div class="modal-content">
+            <p>Êtes-vous sûr de vouloir annuler cette réservation ?</p>
+            <div class="modal-buttons">
+                <button onclick="hideDeleteModal()" class="btn-cancel">Annuler</button>
+                <button onclick="confirmDelete(2)" class="btn-confirm">Confirmer</button>
             </div>
         </div>
     </div>
@@ -62,7 +71,7 @@
                 </div>
             <a href="#">Modifier mes informations</a>
             <a href="../connexion/logout.php">Se déconnecter</a>
-            <button onclick="showDeleteModal('<?php echo htmlspecialchars($_SESSION['user']['id']); ?>')" class="delete-btn">
+            <button onclick="showDeleteModal('<?php echo htmlspecialchars($_SESSION['user']['id']); ?>', 1)" class="delete-btn">
                 Supprimer mon compte
             </button>
         </div>
@@ -102,6 +111,9 @@
                                         <a href='../home/genererPdf.php?flightId=" . htmlspecialchars($reservation['flie_id']) . "' target='_blank'>
                                             <i class='bx bx-link-external'></i>
                                         </a>
+                                    </button>
+                                    <button onclick='showDeleteModal(" . $reservation['id'] . ", 2)' class='btn-view-ticket'>
+                                        <i class='bx bx-trash'></i>
                                     </button>
                                 </td>";
                                 echo "</tr>";
@@ -164,28 +176,56 @@
         });
 
         // Supprimer un joueur (Confirmation Popup)
-        function showDeleteModal(id) {
-            document.getElementById('deleteModal').style.display = 'flex';
-            document.getElementById('deleteModal').dataset.deleteId = id;
+        function showDeleteModal(id, index) {
+            switch (index) {
+                case 1:    
+                    document.getElementById('deleteModal1').style.display = 'flex';
+                    document.getElementById('deleteModal1').dataset.deleteId = id;
+                    break;
+                case 2:
+                    document.getElementById('deleteModal2').style.display = 'flex';
+                    document.getElementById('deleteModal2').dataset.deleteId = id;
+                    break; 
+
+            }              
         }
 
         function hideDeleteModal() {
-            document.getElementById('deleteModal').style.display = 'none';
+            document.getElementById('deleteModal1').style.display = 'none';
         }
 
-        function confirmDelete() {
-            const id = document.getElementById('deleteModal').dataset.deleteId;
-            fetch(`http://127.0.0.1:8000/api/auth/delete-user/${id}`, {
-                method: 'POST'
-            })
-            .then(response => {
-                if (!response.ok) {
-                    showNotification('Erreur lors de la suppression', 'error');
-                } else {
-                    showNotification('Utilisateur supprimé avec succès', 'success');
-                    window.location.href = "../connexion/logout.php";
-                }
-            });
+        function confirmDelete(index) {
+            switch (index) {
+
+                case 1:       
+                    const idModal1 = document.getElementById('deleteModal1').dataset.deleteId;
+                    fetch(`http://127.0.0.1:8000/api/auth/delete-user/${idModal1}`, {
+                        method: 'POST'
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            showNotification('Erreur lors de la suppression', 'error');
+                        } else {
+                            showNotification('Utilisateur supprimé avec succès', 'success');
+                            window.location.href = "../connexion/logout.php";
+                        }
+                    });
+                    break;
+                case 2: 
+                    const idModal2 = document.getElementById('deleteModal2').dataset.deleteId;
+                    fetch(`http://127.0.0.1:8000/api/reservation/delete/${idModal2}`, {
+                        method: 'DELETE'
+                    })
+                   .then(response => {
+                        if (!response.ok) {
+                            showNotification('Erreur lors de la suppression', 'error');
+                        } else {
+                            showNotification('Réservation supprimée avec succès', 'success');
+                            window.location.reload();
+                        }
+                        });
+                    break;
+            }
         }
 
     </script>
