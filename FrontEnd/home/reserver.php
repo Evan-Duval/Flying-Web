@@ -15,7 +15,7 @@ $response = curl_exec($ch);
 curl_close($ch);
 $flight = json_decode($response, true);
 
-$ch = curl_init("http://127.0.0.1:8000/api/planes/get-by-id/" . $flight['plane_id']);
+$ch = curl_init("http://127.0.0.1:8000/api/plane/get-by-id/" . $flight['plane_id']);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $response = curl_exec($ch);
 curl_close($ch);
