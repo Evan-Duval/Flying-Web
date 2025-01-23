@@ -55,7 +55,7 @@
 
             </table>
             <table>
-                <h3>Informations des pistes :</h3>
+                <h3 style="margin-top: 4em;">Informations des pistes :</h3>
                 <?php
                     $ch = curl_init('http://127.0.0.1:8000/api/piste/get-by-airport/' . $aeroport['id']);
                     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -66,11 +66,13 @@
                     if (!empty($pistes)) {
                         echo '<tr>';
                         echo '<th>ID</th>';
+                        echo '<th>Numéro de piste</th>';
                         echo '<th>Longueur</th>';
                         echo '</tr>';
                         foreach ($pistes as $piste) {
                             echo '<tr>';
                             echo '<td>'. htmlspecialchars($piste['id']). '</td>';
+                            echo '<td>'. htmlspecialchars($piste['pisteNumber']). '</td>';
                             echo '<td>'. htmlspecialchars($piste['pisteLenght']). '</td>';
                             echo '</tr>';
                         }

@@ -164,3 +164,13 @@ button a:hover {
         padding: 10px;
     }
 }
+
+
+.content * {
+    font-size: 1.1em;
+}
+
+.content > h3 {
+    font-size: 1.5em;
+    color: #fff;
+}
