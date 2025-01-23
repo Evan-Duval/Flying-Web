@@ -4,72 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
-    <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="style.css">
     <title>FlyingWeb Accueil</title>
 </head>
 <body>
 
+    <div class="title">
+        <h1>Flying Web</h1>
+    </div>
+
     <?php 
-        include '../components/navbar.php';
+    include '../components/navbar.php';
+
+    $ch = curl_init('http://127.0.0.1:8000/api/aeroport/get-all');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $aeroports = json_decode($response, true);
+
+    $ch = curl_init('http://127.0.0.1:8000/api/flies/get-all');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    curl_close($ch);
+    $flies = json_decode($response, true);
+
+    $dateFilter = $_GET['date'] ?? '';
+    $departFilter = $_GET['depart'] ?? '';
+    $arriveFilter = $_GET['arrive'] ?? '';
     ?>
 
-    <div class="title">
-        <h1>FlyingWeb</h1>
-    </div>
+    <div class="main-container">
 
-    <div class="blank">
-        <div class="resa-info">
-            <div class="left">
-                <form class="reservation-form">
-                    <h2>Réserver</h2>
-                    <label for="depart">Départ de :</label>
-                    <input type="text" id="depart" name="depart" placeholder="Départ">
-
-                    <label for="destination">Destination :</label>
-                    <input type="text" id="destination" name="destination" placeholder="Votre destination">
-
-                    <label for="type">Type de billet :</label>
-                    <select id="type" name="type">
-                        <option value="">Aller simple</option>
-                        <option value="aller-retour">Aller-Retour</option>
-                    </select>
-
-                    <label for="date">Date de départ :</label>
-                    <!-- Champ texte pour Flatpickr -->
-                    <input type="text" id="date" name="date" placeholder="Choisir une date">
-
-                    <label id="date-retour-label" for="date-retour" style="display: none;">Date de retour :</label>
-                    <!-- Champ texte pour Flatpickr -->
-                    <input id="date-retour" type="text" name="date-retour" style="display: none;" placeholder="Choisir une date de retour">
-
-                    <button type="submit">Voir les prix</button>
-                </form>
-            </div>
+    <div class="filters-section">
+    <form method="GET" class="filters-form">
+        <div class="filter-group">
+            <label for="date">Date de départ:</label>
+            <input type="date" id="date" name="date" value="<?php echo $dateFilter; ?>">
         </div>
-    </div>
 
-    <div class="banderolle">
-        <div class="text">
-            <div class="text-object">
-                <h3>Voyagez sans limites avec Flying Web</h3>
-                <p>Explorez les villes les plus fascinantes au monde. Notre flotte moderne garantit un confort inégalé et un service à la hauteur de vos attentes.</p>
-            </div>
-            <div class="text-object">
-                <h3>Des horizons plus proches que jamais</h3>
-                <p>Flying Web vous emmène plus loin avec des connexions rapides et des vols réguliers vers les destinations les plus prisées.</p>
-            </div>
-            <div class="text-object">
-                <h3>Explorez le monde avec confort</h3>
-                <p>Prenez les airs avec style grâce à nos services premium, conçus pour vous offrir une expérience unique et inoubliable.</p>
-            </div>
+        <div class="filter-group">
+            <label for="depart">Aéroport de départ:</label>
+            <select name="depart" id="depart">
+                <option value="">Tous les aéroports</option>
+                <?php foreach ($aeroports as $aeroport): ?>
+                    <option value="<?php echo $aeroport['id']; ?>" 
+                            <?php echo ($departFilter == $aeroport['id']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($aeroport['city']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
+
+        <div class="filter-group">
+            <label for="arrive">Aéroport d'arrivée:</label>
+            <select name="arrive" id="arrive">
+                <option value="">Tous les aéroports</option>
+                <?php foreach ($aeroports as $aeroport): ?>
+                    <option value="<?php echo $aeroport['id']; ?>" 
+                            <?php echo ($arriveFilter == $aeroport['id']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($aeroport['city']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+
+        <button type="submit" class="filter-button">Filtrer</button>
+    </form>
     </div>
 
-    <!-- Flatpickr JS -->
+        <?php
+        foreach ($flies as $flight) {
+            if ($dateFilter && date('Y-m-d', strtotime($flight['takeoffTime'])) != $dateFilter) {
+                continue;
+            }
+            if ($departFilter && $flight['aeroport_depart_id'] != $departFilter) {
+                continue;
+            }
+            if ($arriveFilter && $flight['aeroport_arrive_id'] != $arriveFilter) {
+                continue;
+            }
+
+            $departureAirport = array_filter($aeroports, function($aeroport) use ($flight) {
+                return $aeroport['id'] == $flight['aeroport_depart_id'];
+            });
+            $departureAirport = reset($departureAirport);
+
+            $arrivalAirport = array_filter($aeroports, function($aeroport) use ($flight) {
+                return $aeroport['id'] == $flight['aeroport_arrive_id'];
+            });
+            $arrivalAirport = reset($arrivalAirport);
+            ?>
+            <div class="flight-card">
+                <div class="flight-info">
+                    <div class="flight-header">
+                        <h3>Vol <?php echo htmlspecialchars($flight['flightNumber']); ?></h3>
+                    </div>
+                    <div class="flight-details">
+                        <p>Départ de: <b><?php echo htmlspecialchars($departureAirport['city'] ?? 'N/A'); ?></b></p>
+                        <p>Arrivée à: <b><?php echo htmlspecialchars($arrivalAirport['city'] ?? 'N/A'); ?></b></p>
+                        <p>Date de départ: <b><?php echo date('d/m/Y H:i', strtotime($flight['takeoffTime'])); ?></b></p>
+                        <p>Date d'arrivée: <b><?php echo date('d/m/Y H:i', strtotime($flight['landingTime'])); ?></b></p>
+                        <p>Durée: <b><?php echo $flight['flightDuration']; ?> minutes</b></p>
+                        <button onclick="reserverVol(<?php echo $flight['id']; ?>)" class="reserve-button">Réserver</button>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+    </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="script.js"></script>
+    <script>
+        flatpickr("#date", {
+            dateFormat: "Y-m-d",
+        });
+
+        function reserverVol(flightId) {
+            window.location.href = 'reserver.php?flightId=' + flightId;
+        }
+    </script>
 </body>
 </html>
-

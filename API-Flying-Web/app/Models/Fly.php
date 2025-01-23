@@ -12,6 +12,9 @@ class Fly extends Model
         'landingTime',
         'flightNumber',
         'flightDuration',
+        'plane_id',
+        'aeroport_depart_id',
+        'aeroport_arrive_id'
     ];
 
     public function aeroport() {

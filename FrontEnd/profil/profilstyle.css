@@ -159,3 +159,27 @@ form > button:hover {
     font-size: 16px;
     color: #fff;
 }
+
+
+
+#notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    color: white;
+    display: none;
+}
+
+#notification.success {
+    background-color: #28a745; /* Couleur verte */
+}
+
+#notification.error {
+    background-color: #dc3545; /* Couleur rouge */
+}

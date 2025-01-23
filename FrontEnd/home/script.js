@@ -20,7 +20,6 @@ flatpickr("#date", {
     locale: "fr",       
 });
 
-
 flatpickr("#date-retour", {
     dateFormat: "Y-m-d",  
     minDate: "today",    

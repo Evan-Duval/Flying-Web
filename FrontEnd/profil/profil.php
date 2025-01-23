@@ -21,6 +21,10 @@
             };
         ?>
 
+        <div id="notification" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #28a745; color: white; padding: 10px 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1000;">
+            Succès : Données envoyées avec succès.
+        </div>
+
         <div class="user-info">
             <h2 class="info"><?php echo htmlspecialchars($_SESSION['user']['first_name'])?></h2>
             <h2 class="info"><?php echo htmlspecialchars($_SESSION['user']['last_name'])?></h2>
@@ -107,6 +111,31 @@
         const form = document.getElementById('password-form');
         form.style.display = form.style.display === 'none' ? 'block' : 'none';
     });
+
+
+
+    document.getElementById('change-password-form').addEventListener('submit', function(event) {
+    event.preventDefault(); 
+
+    const form = event.target;
+
+    const formData = new FormData(form);
+
+    fetch(form.action, {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+            alert('Succés : ' + (data.message || 'Mot de passe bien modifié.'));
+            form.reset();
+    })
+    .catch(error => {
+        alert('Erreur : Une erreur réseau s\'est produite.');
+        console.error(error);
+    });
+    });
+
     </script>
 </body>
 </html>
