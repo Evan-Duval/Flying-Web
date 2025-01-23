@@ -17,7 +17,7 @@ if (!empty($aeroports)) {
         };
     }
 }
-if (!ctype_alpha($city)) {
+if (!preg_match('/^[a-zA-ZÀ-ÿ\s]+$/u',$city)) {
     echo json_encode([
         'type' => 'error',
         'message' => 'Erreur : Le champ ville doit être une chaîne de caractères.'
