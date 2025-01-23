@@ -28,7 +28,7 @@ class PisteController extends Controller
         if (!$airport) {
             return response()->json(['message' => 'Aucun aeroport trouvé pour cet id !'], 404);
         } else {
-            $pistes = Piste::where('airport_id', $id)->get();          
+            $pistes = Piste::where('aeroport_id', $id)->get();          
             return response()->json($pistes, 200);
         }
     }

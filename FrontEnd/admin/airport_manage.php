@@ -66,6 +66,20 @@
     </div>
 
 
+    <div class="form-container">
+    <a class="go-back-btn" href="admin.php">Retour</a>
+    <form id="form2" method="POST">
+            <h3>Ajouter un piste à l'Aéroport n°<?php echo htmlspecialchars($aeroport['id']);?></h3>
+            <input type="hidden" name="aeroport_id" id="aeroport_id" value="<?php echo htmlspecialchars($aeroport['id']); ?>">
+            <label for="pisteNumber">Numéro de la piste :</label>
+            <input type="number" name="pisteNumber" id="pisteNumber" required>
+            <label for="pisteLenght">Longueur de la piste :</label>
+            <input type="number" name="pisteLenght" id="pisteLenght" required>
+            <button type="submit" onlick="">Ajouter la piste</button>
+        </form>
+    </div>
+
+
     <script>
         document.getElementById('form1').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -100,6 +114,32 @@
             }, 3000);
         }
 
+
+
+        document.getElementById('form2').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('http://127.0.0.1:8000/api/piste/create', {
+                method: 'POST',
+                body: formData,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                showNotification(data.message, data.type);
+
+                if (data.type === 'success') {
+                    window.location.reload();
+                }
+            })
+            .catch((error) => {
+                showNotification(
+                    'Une erreur est survenue lors de la communication avec le serveur',
+                    'error'
+                );
+            });
+        });
 
     </script>
 </body>
