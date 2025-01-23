@@ -10,6 +10,8 @@ class Reservation extends Model
         'dateTime',
         'type',
         'placeNumber',
+        'user_id',
+        'flie_id'
     ];
 
     public function user() {

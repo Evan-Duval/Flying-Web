@@ -19,13 +19,11 @@ return new class extends Migration
             $table->integer('flightDuration');
             $table->timestamps();
             $table->foreignId('plane_id')->constrained()->onDelete('cascade');
-            $table->foreignId('aeroport_id')->constrained()->onDelete('cascade');
+            $table->foreignId('aeroport_depart_id')->constrained('aeroports')->onDelete('cascade');
+            $table->foreignId('aeroport_arrive_id')->constrained('aeroports')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('flies');
