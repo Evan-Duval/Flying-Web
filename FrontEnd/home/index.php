@@ -11,7 +11,7 @@
 <body>
 
     <div class="title">
-        <h1>Evan DUVAL</h1>
+        <h1>Flying Web</h1>
     </div>
 
     <?php 
