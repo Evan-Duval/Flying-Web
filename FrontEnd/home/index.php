@@ -11,7 +11,7 @@
 <body>
 
     <div class="title">
-        <h1>Flying Web</h1>
+        <h1>Evan DUVAL</h1>
     </div>
 
     <?php 
@@ -32,6 +32,7 @@
     $dateFilter = $_GET['date'] ?? '';
     $departFilter = $_GET['depart'] ?? '';
     $arriveFilter = $_GET['arrive'] ?? '';
+    $typeFilter = $_GET['type'] ?? '';
     ?>
 
     <div id="notification" class="notification"></div>
@@ -43,6 +44,14 @@
         <div class="filter-group">
             <label for="date">Date de départ:</label>
             <input type="date" id="date" name="date" value="<?php echo $dateFilter; ?>">
+        </div>
+
+        <div class="filter-group">
+            <label for="type">Type de vol:</label>
+            <select name="type" id="type">
+                <option default value="aller" <?php echo ($typeFilter == 'aller')?'selected' : '';?>>Aller Simple</option>
+                <option value="aller-retour" <?php echo ($typeFilter == 'aller-retour')?'selected' : '';?>>Aller-Retour</option>
+            </select>
         </div>
 
         <div class="filter-group">
@@ -91,6 +100,17 @@
                     }
                 }
             }
+
+            $currentDateTime = new DateTime();
+            $takeoffTime = new DateTime($flight["takeoffTime"]);
+            $landingTime = new DateTime($flight["landingTime"]);
+
+            if ($currentDateTime > $landingTime) {
+                continue;
+            } 
+            elseif ($currentDateTime >= $takeoffTime && $currentDateTime <= $landingTime) {
+                continue;
+            } 
 
             if ($dateFilter && date('Y-m-d', strtotime($flight['takeoffTime'])) != $dateFilter) {
                 continue;

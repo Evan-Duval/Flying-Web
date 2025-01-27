@@ -85,10 +85,10 @@
             <table class="reservations-table">
                 <thead>
                     <tr>
-                        <th>Date et heure</th>
-                        <th>Type</th>
+                        <th>Reservé le</th>
+                        <th>Status</th>
                         <th>Numéro de siège</th>
-                        <th>ID de l'utilisateur</th>
+                        <th>Passager</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -99,13 +99,35 @@
                     // Vérification si des réservations existent
                     if (isset($_SESSION['user']['reservations']) && !empty($_SESSION['user']['reservations'])) {
                         foreach ($_SESSION['user']['reservations'] as $reservation) {
+
+                            $ch = curl_init('http://127.0.0.1:8000/api/flies/get-by-id/' . $reservation['flie_id']);
+                            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                            $response = curl_exec($ch);
+                            curl_close($ch);
+
+                            $flight = json_decode($response, true);
+
+                            $currentDateTime = new DateTime();
+                            $takeoffTime = new DateTime($flight["takeoffTime"]);
+                            $landingTime = new DateTime($flight["landingTime"]);
+
+                            if ($currentDateTime > $landingTime) {
+                                $flight['status'] = "Passé";
+                            } 
+                            elseif ($currentDateTime >= $takeoffTime && $currentDateTime <= $landingTime) {
+                                $flight['status'] = "En cours";
+                            }
+                            else {
+                                $flight['status'] = "A venir";
+                            }
+
                             // Vérification que chaque réservation est un tableau
                             if (is_array($reservation)) {
                                 echo "<tr>";
                                 echo "<td>" . htmlspecialchars($reservation['dateTime']) . "</td>";
-                                echo "<td>" . htmlspecialchars($reservation['type']) . "</td>";
+                                echo "<td>" . htmlspecialchars($flight['status']) . "</td>";
                                 echo "<td>" . htmlspecialchars($reservation['placeNumber']) . "</td>";
-                                echo "<td>" . htmlspecialchars($reservation['user_id']) . "</td>";
+                                echo "<td>" . htmlspecialchars($_SESSION['user']['first_name'] . " " . $_SESSION['user']['last_name']) . "</td>";
                                 echo "<td>
                                     <button class='btn-view-ticket'>
                                         <a href='../home/genererPdf.php?flightId=" . htmlspecialchars($reservation['flie_id']) . "' target='_blank'>
