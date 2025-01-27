@@ -130,7 +130,7 @@
                                 echo "<td>" . htmlspecialchars($_SESSION['user']['first_name'] . " " . $_SESSION['user']['last_name']) . "</td>";
                                 echo "<td>
                                     <button class='btn-view-ticket'>
-                                        <a href='../home/genererPdf.php?flightId=" . htmlspecialchars($reservation['flie_id']) . "' target='_blank'>
+                                        <a href='../home/genererPdf.php?flightId=" . htmlspecialchars($reservation['flie_id']) . "&reservationId=" . htmlspecialchars($reservation['id']) . "' target='_blank'>
                                             <i class='bx bx-link-external'></i>
                                         </a>
                                     </button>
