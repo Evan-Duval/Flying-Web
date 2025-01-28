@@ -33,7 +33,7 @@
     $departFilter = $_GET['depart'] ?? '';
     $arriveFilter = $_GET['arrive'] ?? '';
     $typeFilter = $_GET['type'] ?? '';
-    $hidePastsFlights = $_GET['hide-past-flights'] ?? '';
+    $seePastsFlights = $_GET['see-past-flights'] ?? null;
 
     $returnFlight = $_GET['success'] ?? null;
     ?>
@@ -84,9 +84,9 @@
         </div>
 
         <div class="filter-group">
-            <label for="hide-past-flights">Cacher les vols passés</label>
-            <input type="checkbox" id="hide-past-flights" name="hide-past-flights" 
-            <?php if ($hidePastsFlights == "on") {
+            <label for="see-past-flights">Voir les vols passés</label>
+            <input type="checkbox" id="see-past-flights" name="see-past-flights" 
+            <?php if ($seePastsFlights) {
                 echo 'checked';
             };?>>
         </div>
@@ -119,7 +119,7 @@
             $landingTime = new DateTime($flight["landingTime"]);
 
             if ($currentDateTime > $landingTime) {
-                if ($hidePastsFlights && $hidePastsFlights == "on") {
+                if (!$seePastsFlights) {
                     continue;
                 }
                 $flight['status'] = "Passé";
