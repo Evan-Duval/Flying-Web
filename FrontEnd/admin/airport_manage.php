@@ -66,6 +66,7 @@
     </div>
 
 
+    <div class="right-form">
     <div class="form-container">
     <a class="go-back-btn" href="admin.php">Retour</a>
     <form id="form2" method="POST">
@@ -77,6 +78,28 @@
             <input type="number" name="pisteLenght" id="pisteLenght" required>
             <button type="submit" onlick="">Ajouter la piste</button>
         </form>
+    </div>
+
+    <div class="form-container">
+    <a class="go-back-btn" href="admin.php">Retour</a>
+    <form id="form3" method="POST">
+            <h3>Ajouter un avion à l'Aéroport n°<?php echo htmlspecialchars($aeroport['id']);?></h3>
+            <input type="hidden" name="aeroport_id" id="aeroport_id" value="<?php echo htmlspecialchars($aeroport['id']); ?>">
+            <label for="model"> Modèle :</label>
+            <input type="text" name="model" id="model" required>
+
+            <label for="identification">Identification :</label>
+            <input type="text" name="identification" id="identification" required>
+
+            <label for="nbPlace">Nombre de Place :</label>
+            <input type="number" name="nbPlace" id="nbPlace" required>
+
+            <label for="dimension">Dimension :</label>
+            <input type="text" name="dimension" id="dimension" required>
+
+            <button type="submit" onlick="">Ajouter l'avion</button>
+        </form>
+    </div>
     </div>
 
 
@@ -127,11 +150,29 @@
             })
             .then((response) => response.json())
             .then((data) => {
-                showNotification(data.message, data.type);
-
-                if (data.type === 'success') {
                     window.location.reload();
-                }
+            })
+            .catch((error) => {
+                showNotification(
+                    'Une erreur est survenue lors de la communication avec le serveur',
+                    'error'
+                );
+            });
+        });
+
+
+        document.getElementById('form3').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('http://127.0.0.1:8000/api/plane/create', {
+                method: 'POST',
+                body: formData,
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                    window.location.reload();
             })
             .catch((error) => {
                 showNotification(

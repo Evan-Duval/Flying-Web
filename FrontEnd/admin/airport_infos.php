@@ -32,6 +32,16 @@
         }
     ?>
 
+            <div id="deleteModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <p>Êtes-vous sûr de vouloir supprimer cela ?</p>
+                    <div class="modal-buttons">
+                        <button onclick="hideDeleteModal()" class="btn-cancel">Annuler</button>
+                        <button onclick="confirmDelete()" class="btn-confirm">Confirmer</button>
+                    </div>
+                </div>
+            </div>
+
     <div class="div-container">
         <div class="content">
             <h3>Informations de l'aéroport sélectionné :</h3>
@@ -52,8 +62,8 @@
                     <th>Capacité</th>
                     <td><?php echo htmlspecialchars($aeroport['capacity']);?></td>
                 </tr>
-
             </table>
+
             <table>
                 <h3 style="margin-top: 4em;">Informations des pistes :</h3>
                 <?php
@@ -83,6 +93,48 @@
                 ?>
             </table>
 
+            
+
+
+            <table>
+                <h3 style="margin-top: 4em;">Informations des avions :</h3>
+                <?php
+                    $ch = curl_init('http://127.0.0.1:8000/api/plane/get-by-airport/' . $aeroport['id']);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    $response = curl_exec($ch);
+                    curl_close($ch);
+
+                    $planes = json_decode($response, true);
+                    if (!empty($planes)) {
+                        echo '<tr>';
+                        echo '<th>ID</th>';
+                        echo '<th>Modèle</th>';
+                        echo '<th>Identification</th>';
+                        echo '<th>Nombre de place</th>';
+                        echo '<th>Dimension</th>';
+                        echo '</tr>';
+                        foreach ($planes as $plane) {
+                            echo '<tr>';
+                            echo '<td>'. htmlspecialchars($plane['id']). '</td>';
+                            echo '<td>'. htmlspecialchars($plane['model']). '</td>';
+                            echo '<td>'. htmlspecialchars($plane['identification']). '</td>';
+                            echo '<td>'. htmlspecialchars($plane['nbPlace']). '</td>';
+                            echo '<td>'. htmlspecialchars($plane['dimension']). '</td>';
+                            echo '<td>
+                                <button><a href="plane_manage.php?plane='. $plane['id'] . '"><i class=\'bx bx-edit-alt\'></i></a></button>
+                                <button onclick="showDeleteModal(' . $plane['id'] . ')" class="delete-btn">
+                                    <i class="bx bx-trash"></i>
+                                </button>
+                            </td>';
+                            echo '</tr>';
+                        }
+                        echo '</table>';
+                    } else {
+                        echo '<tr><td colspan="2">Aucune piste associée à cet aéroport</td></tr>';
+                    }
+                ?>
+            </table>
+
             <table class="planesInfos">
 
             </table>
@@ -92,18 +144,27 @@
 
 
     <script>
-        function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = 'notification ' + (type === 'success' ? '' : 'error');
-            notification.style.display = 'block';
-
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
+        function showDeleteModal(id) {
+            document.getElementById('deleteModal').style.display = 'flex';
+            document.getElementById('deleteModal').dataset.deleteId = id;
         }
 
+        function hideDeleteModal() {
+            document.getElementById('deleteModal').style.display = 'none';
+        }
 
+        function confirmDelete() {
+            const id = document.getElementById('deleteModal').dataset.deleteId;
+            fetch(`http://127.0.0.1:8000/api/plane/delete/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    hideDeleteModal();
+                    window.location.reload();
+                }
+            });
+        }
     </script>
 </body>
 </html>

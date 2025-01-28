@@ -18,6 +18,7 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
+    background-color: #000;
 }
 
 /* Style page accès refusé */
@@ -165,7 +166,6 @@ button a:hover {
     }
 }
 
-
 .content * {
     font-size: 1.1em;
 }
@@ -173,4 +173,10 @@ button a:hover {
 .content > h3 {
     font-size: 1.5em;
     color: #fff;
+}
+
+.right-form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
 }

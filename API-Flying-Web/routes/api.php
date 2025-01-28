@@ -63,6 +63,7 @@ Route::prefix('piste')->group(function () {
 Route::prefix('plane')->group(function () {
   Route::get('get-all', [PlaneController::class, 'getAll']);  
   Route::get('get-by-id/{id}', [PlaneController::class, 'getById']);
+  Route::get('get-by-airport/{id}', [PlaneController::class, 'getByAirport']);
   Route::post('create', [PlaneController::class, 'create']);
   Route::put('update/{id}', [PlaneController::class, 'update']);
   Route::delete('delete/{id}', [PlaneController::class, 'delete']);
