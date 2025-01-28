@@ -37,7 +37,7 @@ class FlightReservationPDF extends FPDF
         $this->reservationData = json_decode($response, true);
 
         // Récupération des informations sur l'avion
-        $ch = curl_init("http://127.0.0.1:8000/api/planes/get-by-id/" . $this->flightData['plane_id']);
+        $ch = curl_init("http://127.0.0.1:8000/api/plane/get-by-id/" . $this->flightData['plane_id']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         curl_close($ch);
