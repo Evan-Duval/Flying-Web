@@ -129,9 +129,9 @@ h1 {
 }
 
 .flight-header {
-    display: flex;           /* Pour aligner horizontalement */
-    justify-content: space-between;  /* Espace entre le numéro et le statut */
-    align-items: center;     /* Centrage vertical */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 /* Style de base pour le statut */
@@ -155,6 +155,21 @@ h1 {
 .status-ongoing {
     background-color: #FFC107;
     color: white;
+}
+
+/* Style pour Vol Retour */
+.return-flight {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 8px;
+    margin-right: 10px;
+    background: rgba(0, 123, 255, 0.3); /* Glassmorphism effet */
+    color: #007bff;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 123, 255, 0.2);
 }
 
 

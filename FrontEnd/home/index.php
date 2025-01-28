@@ -34,6 +34,8 @@
     $arriveFilter = $_GET['arrive'] ?? '';
     $typeFilter = $_GET['type'] ?? '';
     $hidePastsFlights = $_GET['hide-past-flights'] ?? '';
+
+    $returnFlight = $_GET['success'] ?? null;
     ?>
 
     <div id="notification" class="notification"></div>
@@ -100,16 +102,6 @@
 
         foreach ($flies as $flight) {
             $reserved = false;
-            $isReturnFlight = false;
-
-            if (isset($typeFilter) && $typeFilter === 'aller-retour' && isset($_SESSION['user']['lastReservation'])) {
-                $lastFlightData = $_SESSION['user']['lastReservation'];
-                if ($departFilter['aeroport_depart_id'] == $lastFlightData['aeroport_arrive_id'] && 
-                    $arriveFilter['aeroport_arrive_id'] == $lastFlightData['aeroport_depart_id'] &&
-                    strtotime($flight['takeoffTime']) > strtotime($lastFlightData['landingTime'])) {
-                    $isReturnFlight = true;
-                }
-            }
 
             // Vérification des réservations dans la session
             if (isset($_SESSION['user']['reservations']) && !empty($_SESSION['user']['reservations'])) {
@@ -162,17 +154,25 @@
             <div class="flight-card">
                 <div class="flight-info">
                     <div class="flight-header">
+                        <!-- Nom du vol aligné à gauche -->
                         <h3>Vol <?php echo htmlspecialchars($flight['flightNumber']); ?></h3>
-                        <h3 class="status <?php 
-                            echo match($flight['status']) {
-                                'Passé' => 'status-past',
-                                'Disponible' => 'status-available',
-                                'En cours' => 'status-ongoing',
-                                default => ''
-                            };
-                        ?>">
-                            <?php echo htmlspecialchars($flight['status']); ?>
-                        </h3>
+                        
+                        <!-- Statut et Vol Retour alignés à droite -->
+                        <div style="display: flex; align-items: center;">
+                            <?php if (isset($returnFlight) && $returnFlight) { ?>
+                                <h3 class="return-flight">Vol Retour</h3>
+                            <?php } ?>
+                            <h3 class="status <?php 
+                                echo match($flight['status']) {
+                                    'Passé' => 'status-past',
+                                    'Disponible' => 'status-available',
+                                    'En cours' => 'status-ongoing',
+                                    default => ''
+                                };
+                            ?>">
+                                <?php echo htmlspecialchars($flight['status']); ?>
+                            </h3>
+                        </div>
                     </div>
                     <div class="flight-details">
                         <p>Départ de: <b><?php echo htmlspecialchars($departureAirport['city'] ?? 'N/A'); ?></b></p>
@@ -186,8 +186,7 @@
                                     "annulerVol({$reservationId})" : 
                                     "reserverVol(
                                         {$flight['id']}, 
-                                        '".($departureAirport['id'] ?? '')."', 
-                                        '".($arrivalAirport['id'] ?? '')."'
+                                        '".($typeFilter == "aller-retour" ?? '')."'
                                     )"; 
                             ?>"
                             class="reserve-button"
@@ -221,15 +220,11 @@
             dateFormat: "Y-m-d",
         });
 
-        function reserverVol(flightId, departureAirport, arrivalAirport) {
-            window.location.href = 'reserver.php?flightId=' + flightId;
-
-            if (typeof departureAirport === 'string' && typeof arrivalAirport === 'string') {
-                $_SESSION['user']['lastReservation'] = {
-                    flie_id: flightId,
-                    aeroport_depart_id: departureAirport,
-                    aeroport_arrive_id: arrivalAirport,
-                };
+        function reserverVol(flightId, volRetour) {
+            if (volRetour === '' || volRetour === null) {
+                window.location.href = 'reserver.php?flightId=' + flightId
+            } else {
+                window.location.href = 'reserver.php?flightId=' + flightId + '&volRetour=' + volRetour;
             }
         }
 

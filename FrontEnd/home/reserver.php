@@ -8,6 +8,7 @@ if (!isset($_SESSION['user'])) {
 }
 
 $flightId = $_GET['flightId'];
+$volRetour = isset($_GET['volRetour']) ? $_GET['volRetour'] : null;
 
 $ch = curl_init("http://127.0.0.1:8000/api/flies/get-by-id/" . $flightId);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -37,4 +38,11 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 $response = curl_exec($ch);
 curl_close($ch);
 
-header('Location: index.php?success=1');
+if ($volRetour) {
+    header('Location: index.php?success=1&type=aller&depart=' . $flight['aeroport_arrive_id'] . '&arrive=' . $flight['aeroport_depart_id'] . '&hide-past-flights=on'); 
+}
+else {
+    header('Location: index.php?aller_success=1'); 
+}
+
+?>
