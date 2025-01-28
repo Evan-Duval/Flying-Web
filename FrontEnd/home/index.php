@@ -33,7 +33,7 @@
     $departFilter = $_GET['depart'] ?? '';
     $arriveFilter = $_GET['arrive'] ?? '';
     $typeFilter = $_GET['type'] ?? '';
-    $seePastsFlights = $_GET['hide-past-flights'] ?? '';
+    $hidePastsFlights = $_GET['hide-past-flights'] ?? '';
     ?>
 
     <div id="notification" class="notification"></div>
@@ -84,7 +84,7 @@
         <div class="filter-group">
             <label for="hide-past-flights">Cacher les vols passés</label>
             <input type="checkbox" id="hide-past-flights" name="hide-past-flights" 
-            <?php if ($seePastsFlights == "on") {
+            <?php if ($hidePastsFlights == "on") {
                 echo 'checked';
             };?>>
         </div>
@@ -95,6 +95,8 @@
 
         <?php
         include '../components/api/myreservations.php';
+
+        date_default_timezone_set('Europe/Paris');
 
         foreach ($flies as $flight) {
             $reserved = false;
@@ -115,14 +117,14 @@
             $landingTime = new DateTime($flight["landingTime"]);
 
             if ($currentDateTime > $landingTime) {
-                if ($seePastsFlights && $seePastsFlights == "on") {
+                if ($hidePastsFlights && $hidePastsFlights == "on") {
                     continue;
                 }
                 $flight['status'] = "Passé";
             } 
             elseif ($currentDateTime >= $takeoffTime && $currentDateTime <= $landingTime) {
                 $flight['status'] = "En cours";
-            } 
+            }
             else {
                 $flight['status'] = "Disponible";
             }
