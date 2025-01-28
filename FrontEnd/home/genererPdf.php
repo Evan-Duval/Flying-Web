@@ -7,6 +7,7 @@ class FlightReservationPDF extends FPDF
 {
     private $data;
     private $flightData;
+    private $reservationData;
     private $planeData;
     private $userFirstName;
     private $userLastName;
@@ -15,7 +16,7 @@ class FlightReservationPDF extends FPDF
     private $aeroportDepart;
     private $aeroportArrive;
 
-    public function __construct($flightId)
+    public function __construct($flightId, $reservationId)
     {
         parent::__construct();
         $this->SetMargins(15, 15, 15);
@@ -27,6 +28,13 @@ class FlightReservationPDF extends FPDF
         $response = curl_exec($ch);
         curl_close($ch);
         $this->flightData = json_decode($response, true);
+
+        // Récupération des informations sur la réservation
+        $ch = curl_init("http://127.0.0.1:8000/api/reservation/get-by-id/" . $reservationId);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $this->reservationData = json_decode($response, true);
 
         // Récupération des informations sur l'avion
         $ch = curl_init("http://127.0.0.1:8000/api/planes/get-by-id/" . $this->flightData['plane_id']);
@@ -92,6 +100,7 @@ class FlightReservationPDF extends FPDF
         $this->CreateInfoRow("Arrivee a", $this->flightData['landingTime']);
         $this->CreateInfoRow("Duree du vol", $this->flightData['flightDuration'] . " minutes");
         $this->CreateInfoRow("Modele de l'Avion", $this->planeData['model'] ?? 'Inconnu');
+        $this->CreateInfoRow("Numero de siege", $this->reservationData['placeNumber'] ?? 'Placement Libre');
 
         $this->Ln(10);
 
@@ -117,7 +126,8 @@ class FlightReservationPDF extends FPDF
 }
 
 $flightId = $_GET['flightId'];
-$pdf = new FlightReservationPDF($flightId);
+$reservationId = $_GET['reservationId'];
+$pdf = new FlightReservationPDF($flightId, $reservationId);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->CreateContent();

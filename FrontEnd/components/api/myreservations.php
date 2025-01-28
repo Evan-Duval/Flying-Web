@@ -1,5 +1,9 @@
 <?php
 
+if (!isset ($_SESSION['user'])) {
+    return;
+};
+
 // Configuration de la requête pour obtenir l'utilisateur
 $ch = curl_init('http://127.0.0.1:8000/api/reservation/get-by-user/' . $_SESSION['user']['id']);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

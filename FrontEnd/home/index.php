@@ -32,7 +32,11 @@
     $dateFilter = $_GET['date'] ?? '';
     $departFilter = $_GET['depart'] ?? '';
     $arriveFilter = $_GET['arrive'] ?? '';
+    $typeFilter = $_GET['type'] ?? '';
+    $hidePastsFlights = $_GET['hide-past-flights'] ?? '';
     ?>
+
+    <div id="notification" class="notification"></div>
 
     <div class="main-container">
 
@@ -41,6 +45,14 @@
         <div class="filter-group">
             <label for="date">Date de départ:</label>
             <input type="date" id="date" name="date" value="<?php echo $dateFilter; ?>">
+        </div>
+
+        <div class="filter-group">
+            <label for="type">Type de vol:</label>
+            <select name="type" id="type">
+                <option default value="aller" <?php echo ($typeFilter == 'aller')?'selected' : '';?>>Aller Simple</option>
+                <option value="aller-retour" <?php echo ($typeFilter == 'aller-retour')?'selected' : '';?>>Aller-Retour</option>
+            </select>
         </div>
 
         <div class="filter-group">
@@ -69,12 +81,64 @@
             </select>
         </div>
 
+        <div class="filter-group">
+            <label for="hide-past-flights">Cacher les vols passés</label>
+            <input type="checkbox" id="hide-past-flights" name="hide-past-flights" 
+            <?php if ($hidePastsFlights == "on") {
+                echo 'checked';
+            };?>>
+        </div>
+
         <button type="submit" class="filter-button">Filtrer</button>
     </form>
     </div>
 
         <?php
+        include '../components/api/myreservations.php';
+
+        date_default_timezone_set('Europe/Paris');
+
         foreach ($flies as $flight) {
+            $reserved = false;
+            $isReturnFlight = false;
+
+            if (isset($typeFilter) && $typeFilter === 'aller-retour' && isset($_SESSION['user']['lastReservation'])) {
+                $lastFlightData = $_SESSION['user']['lastReservation'];
+                if ($departFilter['aeroport_depart_id'] == $lastFlightData['aeroport_arrive_id'] && 
+                    $arriveFilter['aeroport_arrive_id'] == $lastFlightData['aeroport_depart_id'] &&
+                    strtotime($flight['takeoffTime']) > strtotime($lastFlightData['landingTime'])) {
+                    $isReturnFlight = true;
+                }
+            }
+
+            // Vérification des réservations dans la session
+            if (isset($_SESSION['user']['reservations']) && !empty($_SESSION['user']['reservations'])) {
+                foreach ($_SESSION['user']['reservations'] as $reservation) {
+                    if ($reservation['flie_id'] == $flight['id']) {
+                        $reserved = true;
+                        $reservationId = $reservation['id'];
+                        break;
+                    }
+                }
+            }
+
+            $currentDateTime = new DateTime();
+            $takeoffTime = new DateTime($flight["takeoffTime"]);
+            $landingTime = new DateTime($flight["landingTime"]);
+
+            if ($currentDateTime > $landingTime) {
+                if ($hidePastsFlights && $hidePastsFlights == "on") {
+                    continue;
+                }
+                $flight['status'] = "Passé";
+            } 
+            elseif ($currentDateTime >= $takeoffTime && $currentDateTime <= $landingTime) {
+                $flight['status'] = "En cours";
+            }
+            else {
+                $flight['status'] = "Disponible";
+            }
+
             if ($dateFilter && date('Y-m-d', strtotime($flight['takeoffTime'])) != $dateFilter) {
                 continue;
             }
@@ -99,6 +163,16 @@
                 <div class="flight-info">
                     <div class="flight-header">
                         <h3>Vol <?php echo htmlspecialchars($flight['flightNumber']); ?></h3>
+                        <h3 class="status <?php 
+                            echo match($flight['status']) {
+                                'Passé' => 'status-past',
+                                'Disponible' => 'status-available',
+                                'En cours' => 'status-ongoing',
+                                default => ''
+                            };
+                        ?>">
+                            <?php echo htmlspecialchars($flight['status']); ?>
+                        </h3>
                     </div>
                     <div class="flight-details">
                         <p>Départ de: <b><?php echo htmlspecialchars($departureAirport['city'] ?? 'N/A'); ?></b></p>
@@ -106,7 +180,20 @@
                         <p>Date de départ: <b><?php echo date('d/m/Y H:i', strtotime($flight['takeoffTime'])); ?></b></p>
                         <p>Date d'arrivée: <b><?php echo date('d/m/Y H:i', strtotime($flight['landingTime'])); ?></b></p>
                         <p>Durée: <b><?php echo $flight['flightDuration']; ?> minutes</b></p>
-                        <button onclick="reserverVol(<?php echo $flight['id']; ?>)" class="reserve-button">Réserver</button>
+                        <button 
+                        onclick="<?php 
+                                echo $reserved ? 
+                                    "annulerVol({$reservationId})" : 
+                                    "reserverVol(
+                                        {$flight['id']}, 
+                                        '".($departureAirport['id'] ?? '')."', 
+                                        '".($arrivalAirport['id'] ?? '')."'
+                                    )"; 
+                            ?>"
+                            class="reserve-button"
+                            <?php echo ($flight['status'] == "Passé" || $flight['status'] == "En cours") ? "hidden" : "" ?>>
+                            <?php echo $reserved ? "Annuler ma réservation" : "Réserver"; ?>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -116,12 +203,47 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
+        // Pour les notifications
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification ' + (type === 'success' ? '' : 'error');
+            notification.style.display = 'block';
+
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+        
+
+        
         flatpickr("#date", {
             dateFormat: "Y-m-d",
         });
 
-        function reserverVol(flightId) {
+        function reserverVol(flightId, departureAirport, arrivalAirport) {
             window.location.href = 'reserver.php?flightId=' + flightId;
+
+            if (typeof departureAirport === 'string' && typeof arrivalAirport === 'string') {
+                $_SESSION['user']['lastReservation'] = {
+                    flie_id: flightId,
+                    aeroport_depart_id: departureAirport,
+                    aeroport_arrive_id: arrivalAirport,
+                };
+            }
+        }
+
+        function annulerVol(reservationId) {
+            fetch(`http://127.0.0.1:8000/api/reservation/delete/${reservationId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    showNotification('Erreur lors de la suppression', 'error');
+                } else {
+                    window.location.reload();
+                }
+                });
         }
     </script>
 </body>
