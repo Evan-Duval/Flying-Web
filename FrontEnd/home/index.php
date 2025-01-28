@@ -33,6 +33,7 @@
     $departFilter = $_GET['depart'] ?? '';
     $arriveFilter = $_GET['arrive'] ?? '';
     $typeFilter = $_GET['type'] ?? '';
+    $seePastsFlights = $_GET['hide-past-flights'] ?? '';
     ?>
 
     <div id="notification" class="notification"></div>
@@ -80,6 +81,14 @@
             </select>
         </div>
 
+        <div class="filter-group">
+            <label for="hide-past-flights">Cacher les vols passés</label>
+            <input type="checkbox" id="hide-past-flights" name="hide-past-flights" 
+            <?php if ($seePastsFlights == "on") {
+                echo 'checked';
+            };?>>
+        </div>
+
         <button type="submit" class="filter-button">Filtrer</button>
     </form>
     </div>
@@ -106,11 +115,17 @@
             $landingTime = new DateTime($flight["landingTime"]);
 
             if ($currentDateTime > $landingTime) {
-                continue;
+                if ($seePastsFlights && $seePastsFlights == "on") {
+                    continue;
+                }
+                $flight['status'] = "Passé";
             } 
             elseif ($currentDateTime >= $takeoffTime && $currentDateTime <= $landingTime) {
-                continue;
+                $flight['status'] = "En cours";
             } 
+            else {
+                $flight['status'] = "Disponible";
+            }
 
             if ($dateFilter && date('Y-m-d', strtotime($flight['takeoffTime'])) != $dateFilter) {
                 continue;
@@ -136,6 +151,16 @@
                 <div class="flight-info">
                     <div class="flight-header">
                         <h3>Vol <?php echo htmlspecialchars($flight['flightNumber']); ?></h3>
+                        <h3 class="status <?php 
+                            echo match($flight['status']) {
+                                'Passé' => 'status-past',
+                                'Disponible' => 'status-available',
+                                'En cours' => 'status-ongoing',
+                                default => ''
+                            };
+                        ?>">
+                            <?php echo htmlspecialchars($flight['status']); ?>
+                        </h3>
                     </div>
                     <div class="flight-details">
                         <p>Départ de: <b><?php echo htmlspecialchars($departureAirport['city'] ?? 'N/A'); ?></b></p>
@@ -145,7 +170,8 @@
                         <p>Durée: <b><?php echo $flight['flightDuration']; ?> minutes</b></p>
                         <button 
                             onclick="<?php echo $reserved ? "annulerVol({$reservationId})" : "reserverVol({$flight['id']})"; ?>" 
-                            class="reserve-button">
+                            class="reserve-button"
+                            <?php echo ($flight['status'] == "Passé" || $flight['status'] == "En cours") ? "hidden" : "" ?>>
                             <?php echo $reserved ? "Annuler ma réservation" : "Réserver"; ?>
                         </button>
                     </div>
