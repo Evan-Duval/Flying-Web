@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->dateTime('dateTime');
-            $table->string('type');
             $table->integer('placeNumber');
             $table->timestamps();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

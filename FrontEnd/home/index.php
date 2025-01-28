@@ -100,6 +100,16 @@
 
         foreach ($flies as $flight) {
             $reserved = false;
+            $isReturnFlight = false;
+
+            if (isset($typeFilter) && $typeFilter === 'aller-retour' && isset($_SESSION['user']['lastReservation'])) {
+                $lastFlightData = $_SESSION['user']['lastReservation'];
+                if ($departFilter['aeroport_depart_id'] == $lastFlightData['aeroport_arrive_id'] && 
+                    $arriveFilter['aeroport_arrive_id'] == $lastFlightData['aeroport_depart_id'] &&
+                    strtotime($flight['takeoffTime']) > strtotime($lastFlightData['landingTime'])) {
+                    $isReturnFlight = true;
+                }
+            }
 
             // Vérification des réservations dans la session
             if (isset($_SESSION['user']['reservations']) && !empty($_SESSION['user']['reservations'])) {
@@ -171,7 +181,15 @@
                         <p>Date d'arrivée: <b><?php echo date('d/m/Y H:i', strtotime($flight['landingTime'])); ?></b></p>
                         <p>Durée: <b><?php echo $flight['flightDuration']; ?> minutes</b></p>
                         <button 
-                            onclick="<?php echo $reserved ? "annulerVol({$reservationId})" : "reserverVol({$flight['id']})"; ?>" 
+                        onclick="<?php 
+                                echo $reserved ? 
+                                    "annulerVol({$reservationId})" : 
+                                    "reserverVol(
+                                        {$flight['id']}, 
+                                        '".($departureAirport['id'] ?? '')."', 
+                                        '".($arrivalAirport['id'] ?? '')."'
+                                    )"; 
+                            ?>"
                             class="reserve-button"
                             <?php echo ($flight['status'] == "Passé" || $flight['status'] == "En cours") ? "hidden" : "" ?>>
                             <?php echo $reserved ? "Annuler ma réservation" : "Réserver"; ?>
@@ -203,8 +221,16 @@
             dateFormat: "Y-m-d",
         });
 
-        function reserverVol(flightId) {
+        function reserverVol(flightId, departureAirport, arrivalAirport) {
             window.location.href = 'reserver.php?flightId=' + flightId;
+
+            if (typeof departureAirport === 'string' && typeof arrivalAirport === 'string') {
+                $_SESSION['user']['lastReservation'] = {
+                    flie_id: flightId,
+                    aeroport_depart_id: departureAirport,
+                    aeroport_arrive_id: arrivalAirport,
+                };
+            }
         }
 
         function annulerVol(reservationId) {
