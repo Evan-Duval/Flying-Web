@@ -180,6 +180,21 @@
                         <p>Date de départ: <b><?php echo date('d/m/Y H:i', strtotime($flight['takeoffTime'])); ?></b></p>
                         <p>Date d'arrivée: <b><?php echo date('d/m/Y H:i', strtotime($flight['landingTime'])); ?></b></p>
                         <p>Durée: <b><?php echo $flight['flightDuration']; ?> minutes</b></p>
+
+                        <?php
+                        if (isset($_SESSION['user'])) {
+                            $user = $_SESSION['user'];
+                            if ($user['rank'] == 'admin') {
+                                echo '<button class="edit-button">
+                                <a href="flight_manage.php?flightId=' . $flight['id'] . '">
+                                    <i class="bx bx-edit-alt"></i> 
+                                </a>
+                            </button>';
+                            }
+                        }
+                        ?>
+                        
+
                         <button 
                         onclick="<?php 
                                 echo $reserved ? 

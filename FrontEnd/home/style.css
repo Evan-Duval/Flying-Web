@@ -234,3 +234,17 @@ h1 {
         padding: 10px 15px;
     }
 }
+
+
+
+.edit-button {
+    text-align: left;
+    background: #404040;
+    border: none;
+    text-decoration: none;
+    font-size: 35px;
+}
+
+.edit-button > a {
+    color: #fff;
+}
