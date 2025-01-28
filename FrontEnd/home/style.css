@@ -295,14 +295,14 @@ h1 {
 }
 
 /* Détails du vol */
-.flight-details {
+.container .flight-details {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 15px;
     padding: 20px;
     margin-bottom: 2rem;
 }
 
-.flight-details p {
+.container .flight-details p {
     color: #f5f5f5;
     margin: 0.8rem 0;
     font-size: 1.1rem;
@@ -311,14 +311,14 @@ h1 {
     justify-content: space-evenly;
 }
 
-.flight-details strong {
+.container .flight-details strong {
     color: #abdaff;
     min-width: 200px;
     display: inline-block;
 }
 
 /* Liste des réservations */
-.reservations {
+.container .reservations {
     display: grid;
     gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
