@@ -252,7 +252,7 @@ h1 {
 
 
 
-.edit-button {
+.edit-button, .edit-button a {
     text-align: left;
     background: #404040;
     border: none;
@@ -276,6 +276,21 @@ h1 {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.go-back-btn {
+    text-decoration: none;
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    background-color: #db3434;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    z-index: 2;
 }
 
 .container h1 {

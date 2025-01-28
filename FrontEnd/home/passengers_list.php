@@ -48,6 +48,7 @@
     ?>
 
     <div class="container">
+        <a class="go-back-btn" href="index.php">Retour</a>
         <h1>Détails du Vol</h1>
         
         <?php if (!empty($flie)) : ?>
