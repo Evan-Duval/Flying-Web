@@ -185,11 +185,15 @@
                         if (isset($_SESSION['user'])) {
                             $user = $_SESSION['user'];
                             if ($user['rank'] == 'admin') {
-                                echo '<button class="edit-button">
-                                <a href="flight_manage.php?flightId=' . $flight['id'] . '">
-                                    <i class="bx bx-edit-alt"></i> 
-                                </a>
-                            </button>';
+                                echo '
+                                <button class="edit-button">
+                                    <a href="passengers_list?flightId='. $flight['id'] . '"> 
+                                    <i class=\'bx bx-search-alt\'></i>
+                                    </a>
+                                    <a href="flight_manage.php?flightId=' . $flight['id'] . '">
+                                        <i class="bx bx-edit-alt"></i> 
+                                    </a>
+                                </button>';
                             }
                         }
                         ?>

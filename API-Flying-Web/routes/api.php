@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AeroportController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -33,7 +34,10 @@ Route::prefix('auth')->group( function () {
   });
 });
 
-
+Route::prefix('user')->group(function() {
+  Route::get('get-all', [UserController::class, 'getAll']);  
+  Route::get('get-by-id/{id}', [UserController::class, 'getById']);
+});
 
 Route::prefix('aeroport')->group(function () {
   Route::get('get-all', [AeroportController::class, 'getAll']);  
@@ -73,6 +77,7 @@ Route::prefix('reservation')->group(function () {
   Route::get('get-all', [ReservationController::class, 'getAll']);  
   Route::get('get-by-id/{id}', [ReservationController::class, 'getById']);
   Route::get('get-by-user/{id}', [ReservationController::class, 'getByUser']);
+  Route::get('get-by-flight/{id}', [ReservationController::class, 'getByFlight']);
   Route::post('create', [ReservationController::class, 'create']);
   Route::put('update/{id}', [ReservationController::class, 'update']);
   Route::delete('delete/{id}', [ReservationController::class, 'delete']);

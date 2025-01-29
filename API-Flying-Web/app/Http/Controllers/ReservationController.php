@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fly;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,6 +32,17 @@ class ReservationController extends Controller
             $reservations = Reservation::where('user_id', $id)->get();
             return response()->json($reservations, 200);
         }
+    }
+
+    public function getByFlight(int $id): JsonResponse {
+        $fly = Fly::find($id);
+        if (!$fly) {
+            return response()->json(['message' => 'Aucun vol trouvé !'], 404);
+        }
+    
+        $reservations = Reservation::where('flie_id', $fly->id)->get();
+    
+        return response()->json($reservations, 200);
     }
 
     public function create(Request $request): JsonResponse { 
