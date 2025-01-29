@@ -95,7 +95,8 @@
             <input type="number" name="nbPlace" id="nbPlace" required>
 
             <label for="dimension">Dimension :</label>
-            <input type="text" name="dimension" id="dimension" required>
+            <select name="dimension" id="dimension" required>
+            </select>
 
             <button type="submit" onlick="">Ajouter l'avion</button>
         </form>
@@ -182,6 +183,30 @@
             });
         });
 
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const maxLenght = "<?php echo htmlspecialchars($aeroport['maxLenght']); ?>";
+            const dimensionSelect = document.getElementById("dimension");
+
+            const options = {
+                Petit: ["Petit"],
+                Moyen: ["Petit", "Moyen"],
+                Grand: ["Petit", "Moyen", "Grand"],
+            };
+
+            function updateDimensions(maxLenght) {
+                dimensionSelect.innerHTML = "";
+
+                options[maxLenght].forEach((option) => {
+                    const opt = document.createElement("option");
+                    opt.value = option;
+                    opt.textContent = option;
+                    dimensionSelect.appendChild(opt);
+                });
+            }
+
+            updateDimensions(maxLenght);
+        });
     </script>
 </body>
 </html>
