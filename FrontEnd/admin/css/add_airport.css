@@ -1,0 +1,182 @@
+/* Style général */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    text-decoration: none;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('../../img/background-profil.jpeg') no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-color: #000;
+}
+
+/* Style page accès refusé */
+.noaccess {
+    color: #fff;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+
+    padding: 50px;
+    background: rgba(255, 255, 255, 0.21);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.6px);
+    -webkit-backdrop-filter: blur(7.6px);
+
+    margin-left: 110px; /* Pour éviter des collisions avec la sidebar (90px + pour un espace) */ 
+    margin-right: 20px;
+}
+
+.logo {
+    width: 25%;
+    height: 25%;
+    padding-bottom: 25px;
+}
+
+.noaccess h3 {
+    color: #000;
+    padding-top: 10px;
+}
+
+
+
+/* Style pour les formulaires */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4caf50;
+    color: white;
+    padding: 15px;
+    z-index: 99;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.notification.error {
+    background-color: #f44336;
+}
+
+.form-container {
+    position: relative;
+    width: 750px;
+    padding-left: 110px;
+    padding-right: 20px;
+}
+
+.go-back-btn {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    background-color: #db3434;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    z-index: 2;
+}
+
+.go-back-btn:hover {
+    background-color: #b92929;
+    transform: translateY(-2px);
+}
+
+form {
+    background: rgba(255, 255, 255, 0.23);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.1px);
+    -webkit-backdrop-filter: blur(7.1px);
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+form h3 {
+    margin-bottom: 15px;
+    color: #f5f5f5;
+    text-align: center;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+select {
+    background-color: #f9f9f9;
+    appearance: none;
+    cursor: pointer;
+}
+
+button a:hover {
+    color: #e0e0e0; /* Légère variation a u survol */
+}
+
+/* Add responsiveness */
+@media (max-width: 768px) {
+    .form-container {
+        margin-left: 90px; /* Adjust navbar space for smaller screens */
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+}
+
+.content * {
+    font-size: 1.1em;
+}
+
+.content > h3 {
+    font-size: 1.5em;
+    color: #fff;
+}
+
+.right-form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
