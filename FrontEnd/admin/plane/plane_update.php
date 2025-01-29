@@ -21,23 +21,20 @@ $data = array(
     'dimension' => $dimension,
 );
 
-// Configuration de la requête cURL pour une méthode PUT
 $ch = curl_init('http://127.0.0.1:8000/api/plane/update/' . urlencode($plane_id));
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT'); // Configuration explicite pour une requête PUT
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data)); // Les données à envoyer
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'PUT'); 
+curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data)); 
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Type: application/json',
     'Accept: application/json',
-    'Content-Length: ' . strlen(json_encode($data)) // Longueur du contenu
+    'Content-Length: ' . strlen(json_encode($data))
 ));
 
-// Exécution de la requête
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-// Gestion de la réponse
 $result = json_decode($response, true);
 if ($httpCode == 202) {
     echo json_encode([
