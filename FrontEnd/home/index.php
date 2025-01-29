@@ -187,7 +187,7 @@
                             if ($user['rank'] == 'admin') {
                                 echo '
                                 <button class="edit-button">
-                                    <a href="passengers_list?flightId='. $flight['id'] . '"> 
+                                    <a href="passengers_list.php?flightId='. $flight['id'] . '"> 
                                     <i class=\'bx bx-search-alt\'></i>
                                     </a>
                                     <a href="flight_manage.php?flightId=' . $flight['id'] . '">
